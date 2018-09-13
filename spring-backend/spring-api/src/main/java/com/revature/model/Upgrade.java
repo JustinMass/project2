@@ -27,6 +27,7 @@ public Upgrade() {
 	super();
 	// TODO Auto-generated constructor stub
 }
+
 public Upgrade(int userId, String upgrade) {
 	super();
 	this.userId = userId;

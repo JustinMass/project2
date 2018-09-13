@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.dto.Credential;
+import com.revature.model.Upgrade;
 import com.revature.model.User;
 import com.revature.services.UserService;
 @CrossOrigin
@@ -37,13 +38,22 @@ public class UserController {
 		User user = us.findOne(id);
 		return user;
 	}
-
+	
+	// /users/update
+	// this should save over any changes to score or upgrades that are passed in
+	@PostMapping("update")
+	public User update(@RequestBody User u) {
+		return us.update(u);
+	}
+	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User u) {
-		ResponseEntity<User> re = new ResponseEntity<User>(u, HttpStatus.CREATED);
-		return re;
+	public int save(@RequestBody User u) {
+		//u.setId(1);
+		//ResponseEntity<User> re = new ResponseEntity<User>(u, HttpStatus.CREATED);
+		return us.save(u);
 	}
 
+	// /users/login
 	@PostMapping("login")
 	public User login(@RequestBody Credential u) {
 		return us.login(u.getUsername(), u.getPassword());
