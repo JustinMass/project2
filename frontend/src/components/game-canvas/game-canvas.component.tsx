@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as io from 'socket.io-client';
+ // import * as $ from 'jquery';
 
 // interface IProps extends IPokemonState {
 //   fetchPokemon: (id: number) => any,
@@ -52,25 +53,59 @@ export class GameCanvasComponent extends React.Component<any, {}> {
         ctx.lineCap = "round"
       }
     }
-    this.updateCanvas();
+    // this.updateCanvas();
   }
-  public updateCanvas() {
+  public updateCanvas(x: any, y: any, type: any) {
     const canvas = this.canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d")
       if (ctx) {
-        ctx.fillRect(0,0,150,150);
-        console.log('in update canvas')
+        if (type === 'dragstart') {
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+        }
+        else if (type === 'drag') {
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+        else {
+          ctx.closePath();
+        }
+
+        // ctx.fillRect(0, 0, 150, 150);
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(200, 100);
+        // ctx.stroke();
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(100, 100);
+        // ctx.stroke();
+        // console.log('in update canvas')
       }
     }
   }
+
+  public handleDrag(e: any) {
+   // $('canvas').on( 'dragstart', )
+    const type = e.type;
+    console.log(type);
+    const canvas = this.canvasRef.current;
+    if (canvas) {
+     // const offset = $(canvas).offset();
+     // if (offset) {
+        const x = e.clientX;
+        const y = e.clientY;
+        this.updateCanvas(x, y, type);
+     // }
+    }
+  }
+
   public render() {
     return (
-      <div className="container">
+      <div className="container" id="gameCanvasContainer">
         <div className="row">
           <div className="col" id="gameCanvas">
             <button className="btn btn-primary">Test button</button>
-            <canvas ref={this.canvasRef} width={300} height={300}></canvas>
+            <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }} width={300} height={300}></canvas>
           </div>
         </div>
       </div>
