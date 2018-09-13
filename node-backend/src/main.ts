@@ -44,9 +44,9 @@ app.use(bodyParser.json());
 app.use('/static', express.static(__dirname + '/static'));
 
 // serve start page (TEMPORARY UNTIL S3 SETUP)
-app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// app.get('/', function(req, res){
+//     res.sendFile(path.join(__dirname, 'index.html'));
+// });
 
 // start listening
 server.listen(port, () => {
