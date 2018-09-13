@@ -40,14 +40,6 @@ app.use((req, res, next) => {
 //setup body parser
 app.use(bodyParser.json());
 
-//directories set here can be accessed by user
-app.use('/static', express.static(__dirname + '/static'));
-
-// serve start page (TEMPORARY UNTIL S3 SETUP)
-// app.get('/', function(req, res){
-//     res.sendFile(path.join(__dirname, 'index.html'));
-// });
-
 // start listening
 server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
