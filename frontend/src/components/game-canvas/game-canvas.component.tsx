@@ -105,7 +105,7 @@ export class GameCanvasComponent extends React.Component<any, {}> {
         <div className="row">
           <div className="col" id="gameCanvas">
             <button className="btn btn-primary">Test button</button>
-            <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }} width={300} height={300}></canvas>
+            <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }} width={900} height={900}></canvas>
           </div>
         </div>
       </div>
