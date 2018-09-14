@@ -45,22 +45,30 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
+let arts = [];
+
 io.on('connection', (socket) => {
 
     socket.on('art transfer', (art) => {
         // console.log(art);
         console.log('art received on server');
-        io.sockets.emit('new art', art);
+        arts.push(art);
+
+        setTimeout(() => {
+            socket.emit('show art', arts);
+        }, 500);
     });
 
+    let finished = false;
     let time = 31;
     setInterval(() => {
         time--;
         if(time>0) {
             socket.emit('timer', time);
         }
-        else{
+        else if(!finished){
             socket.emit('finish');
+            finished = true;
         }
     }, 1000);
 
