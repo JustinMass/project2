@@ -10,11 +10,14 @@ import * as io from 'socket.io-client';
 export class GameCanvasComponent extends React.Component<any, {}> {
 
   public canvas: any;
+  public image: any;
   public isDrawing = false;
+  public socket = io('http://localhost:3001');
 
   constructor(props: any) {
     super(props);
     this.canvas = React.createRef();
+    this.image = React.createRef();
   }
 
   public getContext(): CanvasRenderingContext2D {
@@ -44,81 +47,23 @@ export class GameCanvasComponent extends React.Component<any, {}> {
     context.beginPath();
   }
 
+  public sendArt = () => {
+    const current = this.canvas.current;
+    const image = new Image();
+    image.src = current.toDataURL("image/png");
+    this.image.current.src = image.src;
+    this.socket.emit('art transfer', image.src)
+  }
+
 
   public componentDidMount() {
-    const socket = io('http://localhost:3001');
 
-    socket.on('connected', (payload: any) => {
-      console.log(`You are user #${payload.count}`);
-
-      const users = payload.users;
-
-      console.log(`All users:`);
-
-      for (const id in users) {
-        if (id) {
-          console.log(id);
-        }
-      }
-
-      socket.on('quit', (id: any) => {
-        console.log(`${id} disconnected`)
-      })
-    });
+   this.socket.on('new art', (art: any)=> {
+      this.image.current.src = art;
+   })
     
     }
     
-  
-
-  // public updateCanvas(x: any, y: any, type: any) {
-  //   // console.log(`x=${x} y=${y}`)
-  //   const canvas = this.canvasRef.current;
-  //   if (canvas) {
-  //     const ctx = canvas.getContext("2d")
-  //     if (ctx) {
-  //       if (type === 'dragstart') {
-  //         this.lastX = x;
-  //         this.lastY = y;
-  //         ctx.beginPath();
-  //         ctx.moveTo(x, y);
-  //       }
-  //       else if (type === 'drag') {
-  //         if ((this.lastX - x) > 20 || (this.lastY - y) > 20) { return; }
-  //         ctx.lineTo(x, y);
-  //         ctx.stroke();
-  //         this.lastX = x;
-  //         this.lastY = y;
-  //       }
-  //       else {
-  //         ctx.closePath();
-  //       }
-  //       return;
-  //     }
-  //   }
-  // }
-
-  // public handleDrag(e: any) {
-  //   e.dataTransfer.setDragImage(document.createElement('canvas'), 0, 0);
-  //   // $('canvas').on( 'dragstart', )
-
-
-  //   const type = e.type;
-  //   // if (type === 'dragstart') {e.dataTransfer.effectAllowed = "copyMove";}
-  //   // if (type === 'drag') {e.dataTransfer.dropEffect = "copy";}
-  //   console.log(type);
-  //   const canvas = this.canvasRef.current;
-  //   if (canvas) {
-  //     const offset = $(canvas).offset();
-  //     // console.log(offset);
-  //     if (offset) {
-  //       e.offsetX = e.clientX - offset.left;
-  //       e.offsetY = e.clientY - offset.top;
-  //       const x = e.offsetX;
-  //       const y = e.offsetY;
-  //       this.updateCanvas(x, y, type);
-  //     }
-  //   }
-  // }
 
   public render() {
     return (
@@ -128,7 +73,8 @@ export class GameCanvasComponent extends React.Component<any, {}> {
           onMouseDown={(e: any) => { this.toggleDraw(); this.startDraw(e); }}
           onMouseUp={this.toggleDraw}>
         </canvas>
-        <button className="btn btn-primary">Send Art</button>
+        <button onClick={()=>{this.sendArt()}} className="btn btn-primary">Send Art</button>
+        <img ref={this.image}></img>
       </div>
 
     );

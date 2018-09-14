@@ -48,7 +48,7 @@ server.listen(port, () => {
 io.on('connection', (socket) => {
 
     socket.on('art transfer', (art) => {
-        console.log(art);
+        // console.log(art);
         console.log('art received on server');
         io.sockets.emit('new art', art);
     });
