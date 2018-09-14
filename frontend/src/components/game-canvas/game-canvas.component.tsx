@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as io from 'socket.io-client';
- // import * as $ from 'jquery';
+// import * as $ from 'jquery';
 
 // interface IProps extends IPokemonState {
 //   fetchPokemon: (id: number) => any,
@@ -18,6 +18,8 @@ import * as io from 'socket.io-client';
 export class GameCanvasComponent extends React.Component<any, {}> {
 
   private canvasRef: React.RefObject<HTMLCanvasElement>;
+  private lastX: number;
+  private lastY: number;
   constructor(props: any) {
     super(props);
     this.canvasRef = React.createRef();
@@ -47,8 +49,8 @@ export class GameCanvasComponent extends React.Component<any, {}> {
       const ctx = canvas.getContext("2d")
       if (ctx) {
         // ctx.fillRect(0, 0, 100, 100);
-        ctx.fillStyle = "#FF0000"
-        ctx.strokeStyle = "#bada55"
+        ctx.fillStyle = "solid"
+        ctx.strokeStyle = "#212529"
         ctx.lineWidth = 5
         ctx.lineCap = "round"
       }
@@ -56,46 +58,52 @@ export class GameCanvasComponent extends React.Component<any, {}> {
     // this.updateCanvas();
   }
   public updateCanvas(x: any, y: any, type: any) {
+    // console.log(`x=${x} y=${y}`)
     const canvas = this.canvasRef.current;
     if (canvas) {
       const ctx = canvas.getContext("2d")
       if (ctx) {
         if (type === 'dragstart') {
+          this.lastX = x;
+          this.lastY = y;
           ctx.beginPath();
           ctx.moveTo(x, y);
         }
         else if (type === 'drag') {
+          if ((this.lastX - x) > 20 || (this.lastY - y) > 20) { return; }
           ctx.lineTo(x, y);
           ctx.stroke();
+          this.lastX = x;
+          this.lastY = y;
         }
         else {
           ctx.closePath();
         }
-
-        // ctx.fillRect(0, 0, 150, 150);
-        // ctx.moveTo(0, 0);
-        // ctx.lineTo(200, 100);
-        // ctx.stroke();
-        // ctx.moveTo(0, 0);
-        // ctx.lineTo(100, 100);
-        // ctx.stroke();
-        // console.log('in update canvas')
+        return;
       }
     }
   }
 
   public handleDrag(e: any) {
-   // $('canvas').on( 'dragstart', )
+    e.dataTransfer.setDragImage(document.createElement('canvas'), 0, 0);
+    // $('canvas').on( 'dragstart', )
+
+
     const type = e.type;
+    // if (type === 'dragstart') {e.dataTransfer.effectAllowed = "copyMove";}
+    // if (type === 'drag') {e.dataTransfer.dropEffect = "copy";}
     console.log(type);
     const canvas = this.canvasRef.current;
     if (canvas) {
-     // const offset = $(canvas).offset();
-     // if (offset) {
-        const x = e.clientX;
-        const y = e.clientY;
+      const offset = $(canvas).offset();
+      // console.log(offset);
+      if (offset) {
+        e.offsetX = e.clientX - offset.left;
+        e.offsetY = e.clientY - offset.top;
+        const x = e.offsetX;
+        const y = e.offsetY;
         this.updateCanvas(x, y, type);
-     // }
+      }
     }
   }
 
@@ -105,7 +113,9 @@ export class GameCanvasComponent extends React.Component<any, {}> {
         <div className="row">
           <div className="col" id="gameCanvas">
             <button className="btn btn-primary">Test button</button>
-            <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }} width={900} height={900}></canvas>
+            <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} 
+              onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }}
+              width={900} height={900}></canvas>
           </div>
         </div>
       </div>
