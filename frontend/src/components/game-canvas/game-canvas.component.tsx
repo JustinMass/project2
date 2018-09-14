@@ -51,7 +51,7 @@ export class GameCanvasComponent extends React.Component<any, {}> {
         // ctx.fillRect(0, 0, 100, 100);
         ctx.fillStyle = "solid"
         ctx.strokeStyle = "#212529"
-        ctx.lineWidth = 5
+        ctx.lineWidth = 3
         ctx.lineCap = "round"
       }
     }
