@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
         setTimeout(() => {
             socket.emit('show art', arts);
             arts = [];
-        }, 500);
+        }, 5000);
     });
 
     let finished = false;

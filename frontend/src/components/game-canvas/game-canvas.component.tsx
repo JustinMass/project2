@@ -10,8 +10,9 @@ import * as io from 'socket.io-client';
 export class GameCanvasComponent extends React.Component<any, any> {
 
   public canvas: any;
-  public image: any;
+  public images: any[];
   public imageContainer: any;
+  public showImages = false;
   // public timer: any;
   public isDrawing = false;
   public socket = io('http://localhost:3001');
@@ -21,11 +22,12 @@ export class GameCanvasComponent extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.canvas = React.createRef();
-    this.image = React.createRef();
+    // this.image = React.createRef();
     this.imageContainer = React.createRef();
     // this.timer = React.createRef();
     this.state = {
-      timer: 0
+      images: [],
+      timer: ''
     }
   }
 
@@ -68,12 +70,18 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
   public componentDidMount() {
 
-    this.socket.on('new art', (art: any) => {
-      this.image.current.src = art;
-      this.imageContainer.current.style.display = "block";
+    this.socket.on('show art', (arts: any[]) => {
+      this.setState({
+        ...this.state,
+        images: arts
+      })
+      // this.imageContainer.current.style.display = "block";
+      this.setState({
+        ...this.state,
+        showImages: true
+      })
       this.canvas.current.style.display = "none";
     })
-    this.imageContainer.current.style.display = "none";
 
     this.socket.on('timer', (timer: any) => {
       this.setState({
@@ -110,9 +118,14 @@ export class GameCanvasComponent extends React.Component<any, any> {
           <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>
           <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>
           <button onClick={() => { this.canvas.current.style.display = "block"; this.imageContainer.current.style.display = "none"; }} className="btn btn-warning eraseButton">Draw</button>
-          <div ref={this.imageContainer} className="bg-light refImage">
-            <img ref={this.image}></img>
-          </div>
+          
+          { this.state.showImages && this.state.images.map((image: any, index:any) =>
+            <div key={index} className="bg-light refImage">
+            <img src={image}></img>
+            </div>
+            )}
+            {/* <img ref={this.image}></img> */}
+          
         </div>
       </div>
 
