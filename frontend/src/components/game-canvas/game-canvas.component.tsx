@@ -17,16 +17,12 @@ import * as React from 'react';
 
 export class GameCanvasComponent extends React.Component<any, {}> {
 
-  // private canvasRef: React.RefObject<HTMLCanvasElement>;
-  // private lastX: number;
-  // private lastY: number;
   public canvas: any;
   public isDrawing = false;
 
   constructor(props: any) {
     super(props);
     this.canvas = React.createRef();
-    // this.canvasRef = React.createRef();
   }
 
   public getContext(): CanvasRenderingContext2D {
@@ -143,35 +139,16 @@ export class GameCanvasComponent extends React.Component<any, {}> {
 
   public render() {
     return (
-      // <div className="container" id="gameCanvasContainer">
-      //   <div className="row">
-           <div id="gameCanvasContainer">
-            <canvas id="gameCanvas" width={700} height={700} className="bg-light" ref={this.canvas}
-              onMouseMove={this.draw}
-              onMouseDown={(e:any)=>{this.toggleDraw();this.startDraw(e);}}
-              onMouseUp={this.toggleDraw}> </canvas>
-      //     </div>
-      //   </div>
-      // </div>
+      <div id="gameCanvasContainer">
+        <canvas id="gameCanvas" width={700} height={700} className="bg-light" ref={this.canvas}
+          onMouseMove={this.draw}
+          onMouseDown={(e: any) => { this.toggleDraw(); this.startDraw(e); }}
+          onMouseUp={this.toggleDraw}> </canvas>
+      </div>
+
     );
   }
 }
-
-//   public render() {
-//     return (
-//       <div className="container" id="gameCanvasContainer">
-//         <div className="row">
-//           <div className="col" id="gameCanvas">
-//             <button className="btn btn-primary">Test button</button>
-//             <canvas className="bg-light" ref={this.canvasRef} draggable={true} onDrag={(e) => { this.handleDrag(e) }} 
-//               onDragStart={(e) => { this.handleDrag(e) }} onDragEnd={(e) => { this.handleDrag(e) }}
-//               width={900} height={900}></canvas>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
 
 // const mapStateToProps = (state: IState) => (state.signIn);
 
