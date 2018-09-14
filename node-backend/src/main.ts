@@ -45,28 +45,15 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
-let count = 0;
-let users = {};
 io.on('connection', (socket) => {
-    console.log(`User ${socket.id} connected`);
-    count++;
 
-    users[socket.id] = socket.id;
-    let payload = {
-        count,
-        users
-    };
-    socket.emit('connected', payload);
+    socket.on('art transfer', (art) => {
+        console.log(art);
+        console.log('art received on server');
+        io.sockets.emit('new art', art);
+    });
 
     socket.on('disconnect', function () {
-
-        //check that user is a player. If players[socket.id] is undefined, the user is not a player
-        if (typeof users[socket.id] !== 'undefined') {
-            users[socket.id] = {};
-        }
-
-        count--;
-
-        io.sockets.emit('quit', socket.id);
+        //disconnect logic goes here
     });
 });
