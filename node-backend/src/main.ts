@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
 
     let time = 31;
     setInterval(() => {
+        time--;
         if(time>0) {
             socket.emit('timer', time);
         }
