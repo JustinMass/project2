@@ -53,6 +53,16 @@ io.on('connection', (socket) => {
         io.sockets.emit('new art', art);
     });
 
+    let time = 31;
+    setInterval(() => {
+        if(time>0) {
+            socket.emit('timer', time);
+        }
+        else{
+            socket.emit('finish');
+        }
+    }, 1000);
+
     socket.on('disconnect', function () {
         //disconnect logic goes here
     });
