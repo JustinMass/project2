@@ -1,19 +1,11 @@
 import * as React from 'react';
-// import * as io from 'socket.io-client';
+import * as io from 'socket.io-client';
 // import * as $ from 'jquery';
 
 // interface IProps extends IPokemonState {
 //   fetchPokemon: (id: number) => any,
 //   updateId: (id: number) => any
 // }
-
-// function subscribeToTimer(interval: any, cb: any) {
-//   console.log(interval + cb);
-// } 
-// export { subscribeToTimer }
-
-
-
 
 export class GameCanvasComponent extends React.Component<any, {}> {
 
@@ -34,7 +26,7 @@ export class GameCanvasComponent extends React.Component<any, {}> {
       const current = this.canvas.current;
       const context: CanvasRenderingContext2D = current.getContext("2d");
       context.strokeStyle = '#ff4141';
-      context.lineWidth = 5;
+      context.lineWidth = 4;
       context.lineCap = "round";
       context.lineTo(e.pageX - current.offsetLeft, e.pageY - current.offsetTop)
       context.stroke()
@@ -53,39 +45,30 @@ export class GameCanvasComponent extends React.Component<any, {}> {
   }
 
 
-  // public componentDidMount() {
-  //   const socket = io('http://localhost:3001');
+  public componentDidMount() {
+    const socket = io('http://localhost:3001');
 
-  //   socket.on('connected', (payload: any) => {
-  //     console.log(`You are user #${payload.count}`);
+    socket.on('connected', (payload: any) => {
+      console.log(`You are user #${payload.count}`);
 
-  //     const users = payload.users;
+      const users = payload.users;
 
-  //     console.log(`All users:`);
+      console.log(`All users:`);
 
-  //     for (const id in users) {
-  //       if (id) {
-  //         console.log(id);
-  //       }
-  //     }
+      for (const id in users) {
+        if (id) {
+          console.log(id);
+        }
+      }
 
-  //     socket.on('quit', (id: any) => {
-  //       console.log(`${id} disconnected`)
-  //     })
-  //   });
-  //   const canvas = this.canvasRef.current;
-  //   if (canvas) {
-  //     const ctx = canvas.getContext("2d")
-  //     if (ctx) {
-  //       // ctx.fillRect(0, 0, 100, 100);
-  //       ctx.fillStyle = "solid"
-  //       ctx.strokeStyle = "#212529"
-  //       ctx.lineWidth = 3
-  //       ctx.lineCap = "round"
-  //     }
-  //   }
-  //   // this.updateCanvas();
-  // }
+      socket.on('quit', (id: any) => {
+        console.log(`${id} disconnected`)
+      })
+    });
+    
+    }
+    
+  
 
   // public updateCanvas(x: any, y: any, type: any) {
   //   // console.log(`x=${x} y=${y}`)
@@ -140,10 +123,12 @@ export class GameCanvasComponent extends React.Component<any, {}> {
   public render() {
     return (
       <div id="gameCanvasContainer">
-        <canvas id="gameCanvas" width={700} height={700} className="bg-light" ref={this.canvas}
+        <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}
           onMouseMove={this.draw}
           onMouseDown={(e: any) => { this.toggleDraw(); this.startDraw(e); }}
-          onMouseUp={this.toggleDraw}> </canvas>
+          onMouseUp={this.toggleDraw}>
+        </canvas>
+        <button className="btn btn-primary">Send Art</button>
       </div>
 
     );
