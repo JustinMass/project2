@@ -1,7 +1,7 @@
 import express = require('express');
 import session = require("express-session");
 import * as bodyParser from "body-parser";
-import * as path from "path";
+
 
 const http = require('http');
 const socketIO = require('socket.io');
@@ -45,7 +45,6 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
-let arts = [];
 let players = [];
 let playerCt = 0;
 io.on('connection', (socket) => {
@@ -87,5 +86,6 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', function () {
         players[id] = null;
+        playerCt--;
     });
 });

@@ -10,7 +10,7 @@ import * as io from 'socket.io-client';
 export class GameCanvasComponent extends React.Component<any, any> {
 
   public canvas: any;
-  public images: any[];
+  public users: any[];
   public imageContainer: any;
   public showImages = false;
   public isDrawing = false;
@@ -24,8 +24,8 @@ export class GameCanvasComponent extends React.Component<any, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
-      images: [],
-      timer: ''
+      timer: '',
+      users: []
     }
   }
 
@@ -63,10 +63,11 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
   public componentDidMount() {
 
-    this.socket.on('show art', (arts: any[]) => {
+    this.socket.on('show art', (players: any[]) => {
+      console.log(players);
       this.setState({
         ...this.state,
-        images: arts
+        users: players
       })
       this.setState({
         ...this.state,
@@ -80,6 +81,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
         timer
       });
     })
+
     this.socket.on('finish', () => {
       this.setState({
         timer: "Time's Up!"
@@ -89,6 +91,11 @@ export class GameCanvasComponent extends React.Component<any, any> {
       image.src = current.toDataURL("image/png");
       this.socket.emit('art transfer', image.src);
 
+    })
+
+    this.socket.on('player data', (player: any)=> {
+        this.user = player;
+        console.log(this.user);
     })
   }
 
@@ -110,10 +117,11 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
         <div className="container resultsContainer">
           <div className="row">
-            {this.state.showImages && this.state.images.map((image: any, index: any) =>
-              <div key={index} className="col">
+            {this.state.showImages && this.state.users.map((user: any) =>
+              <div key={user.id} className="col">
                 <div className="bg-light refImage">
-                  <img src={image} onClick={() => { this.handleVote() }} className="resultImage"></img>
+                  <img src={user.art} onClick={() => { this.handleVote() }} className="resultImage"></img>
+                  {user.id}
                 </div>
               </div>
 
