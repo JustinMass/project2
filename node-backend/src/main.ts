@@ -46,20 +46,27 @@ server.listen(port, () => {
 });
 
 let arts = [];
-let artReleased = false;
+let players = [];
+let playerCt = 0;
 io.on('connection', (socket) => {
+    let id = ++playerCt;
+    players[id] = {
+        id,
+        art: ''
+    };
+
+    socket.emit('player data', players[id]);
 
     socket.on('art transfer', (art) => {
-        // console.log(art);
-        console.log('art received on server');
-        arts.push(art);
+        // arts.push(art);
+        players[id].art = art;
 
         setTimeout(() => {
-            io.sockets.emit('show art', arts);
+            io.sockets.emit('show art', players);
 
-            setTimeout(() => {
-                arts = [];
-            }, 5000)
+            // setTimeout(() => {
+            //     arts = [];
+            // }, 5000);
          }, 4000);
     });
 
@@ -79,6 +86,6 @@ io.on('connection', (socket) => {
 
 
     socket.on('disconnect', function () {
-        //disconnect logic goes here
+        players[id] = null;
     });
 });
