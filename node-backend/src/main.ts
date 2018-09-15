@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
         players[id].art = art;
 
         setTimeout(() => {
-            io.sockets.emit('show art', players);
+            socket.emit('show art', players);
 
             // setTimeout(() => {
             //     arts = [];

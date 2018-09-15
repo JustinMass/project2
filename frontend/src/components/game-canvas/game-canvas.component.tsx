@@ -118,8 +118,9 @@ export class GameCanvasComponent extends React.Component<any, any> {
         <div className="container resultsContainer">
           <div className="row">
             {this.state.showImages && this.state.users.map((user: any) =>
+            user && 
               <div key={user.id} className="col">
-                <div className="bg-light refImage">
+                <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote() }} className="resultImage"></img>
                   {user.id}
                 </div>
