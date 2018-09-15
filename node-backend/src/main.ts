@@ -46,7 +46,7 @@ server.listen(port, () => {
 });
 
 let arts = [];
-
+let artReleased = false;
 io.on('connection', (socket) => {
 
     socket.on('art transfer', (art) => {
@@ -55,9 +55,12 @@ io.on('connection', (socket) => {
         arts.push(art);
 
         setTimeout(() => {
-            socket.emit('show art', arts);
-            arts = [];
-        }, 4000);
+            io.sockets.emit('show art', arts);
+
+            setTimeout(() => {
+                arts = [];
+            }, 5000)
+         }, 4000);
     });
 
     let finished = false;
@@ -72,6 +75,8 @@ io.on('connection', (socket) => {
             finished = true;
         }
     }, 1000);
+
+
 
     socket.on('disconnect', function () {
         //disconnect logic goes here
