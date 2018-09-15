@@ -1,12 +1,13 @@
 #gameCanvas {
   margin-top: 4em;
+  
   /* text-align: center; */
   /* margin: auto;
   margin-left: 20%; */
 }
 #gameCanvasContainer {
   margin: auto;
-  width: 50%;
+  width: 600px;
 }
 html, body {
   height: 100%;
@@ -46,4 +47,8 @@ html, body {
 .resultImage{
   height: 300px;
   width: 300px;
+}
+
+.resultsContainer {
+  width: 100%;
 }

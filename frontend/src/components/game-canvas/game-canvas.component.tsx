@@ -13,18 +13,16 @@ export class GameCanvasComponent extends React.Component<any, any> {
   public images: any[];
   public imageContainer: any;
   public showImages = false;
-  // public timer: any;
   public isDrawing = false;
   public socket = io('http://localhost:3001');
   public drawColor = '#ff4141';
   public lineWidth = 4;
+  public user = {};
 
   constructor(props: any) {
     super(props);
     this.canvas = React.createRef();
-    // this.image = React.createRef();
     this.imageContainer = React.createRef();
-    // this.timer = React.createRef();
     this.state = {
       images: [],
       timer: ''
@@ -58,9 +56,9 @@ export class GameCanvasComponent extends React.Component<any, any> {
     context.beginPath();
   }
 
-  // public sendArt = () => {
-    
-  // }
+  public handleVote = () => {
+    console.log('in handle vote');
+  }
 
 
   public componentDidMount() {
@@ -70,7 +68,6 @@ export class GameCanvasComponent extends React.Component<any, any> {
         ...this.state,
         images: arts
       })
-      // this.imageContainer.current.style.display = "block";
       this.setState({
         ...this.state,
         showImages: true
@@ -104,21 +101,24 @@ export class GameCanvasComponent extends React.Component<any, any> {
         >
       <div id="gameCanvasContainer">
           <h5 className="gameTimer">{this.state.timer}</h5>
-          <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}
-          >
+          <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>
           <br />
-          {/* <button onClick={() => { this.sendArt() }} className="btn btn-primary">Send Art</button> */}
-          <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>
-          <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>
-          {/* <button onClick={() => { this.canvas.current.style.display = "block"; this.imageContainer.current.style.display = "none"; }} className="btn btn-warning eraseButton">Draw</button> */}
+          {!this.state.showImages && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
+          {!this.state.showImages && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
+        </div>
 
-          {this.state.showImages && this.state.images.map((image: any, index: any) =>
-            <div key={index} className="bg-light refImage">
-              <img src={image} className="resultImage"></img>
-            </div>
-          )}
+        <div className="container resultsContainer">
+          <div className="row">
+            {this.state.showImages && this.state.images.map((image: any, index: any) =>
+              <div key={index} className="col">
+                <div className="bg-light refImage">
+                  <img src={image} onClick={() => { this.handleVote() }} className="resultImage"></img>
+                </div>
+              </div>
 
+            )}
+          </div>
         </div>
       </div>
 
