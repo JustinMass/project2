@@ -57,11 +57,11 @@ io.on('connection', (socket) => {
         setTimeout(() => {
             socket.emit('show art', arts);
             arts = [];
-        }, 5000);
+        }, 4000);
     });
 
     let finished = false;
-    let time = 31;
+    let time = 11;
     setInterval(() => {
         time--;
         if(time>0) {

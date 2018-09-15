@@ -58,14 +58,9 @@ export class GameCanvasComponent extends React.Component<any, any> {
     context.beginPath();
   }
 
-  public sendArt = () => {
-    // const current = this.canvas.current;
-    // const image = new Image();
-    // image.src = current.toDataURL("image/png");
-    // // this.image.current.src = image.src;
-    // this.socket.emit('art transfer', image.src);
-    // // current.style.display = "none";
-  }
+  // public sendArt = () => {
+    
+  // }
 
 
   public componentDidMount() {
@@ -92,12 +87,11 @@ export class GameCanvasComponent extends React.Component<any, any> {
       this.setState({
         timer: "Time's Up!"
       })
-    const current = this.canvas.current;
-    const image = new Image();
-    image.src = current.toDataURL("image/png");
-    // this.image.current.src = image.src;
-    this.socket.emit('art transfer', image.src);
-    // current.style.display = "none";
+      const current = this.canvas.current;
+      const image = new Image();
+      image.src = current.toDataURL("image/png");
+      this.socket.emit('art transfer', image.src);
+
     })
   }
 
@@ -114,18 +108,17 @@ export class GameCanvasComponent extends React.Component<any, any> {
           >
           </canvas>
           <br />
-          <button onClick={() => { this.sendArt() }} className="btn btn-primary">Send Art</button>
+          {/* <button onClick={() => { this.sendArt() }} className="btn btn-primary">Send Art</button> */}
           <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>
           <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>
-          <button onClick={() => { this.canvas.current.style.display = "block"; this.imageContainer.current.style.display = "none"; }} className="btn btn-warning eraseButton">Draw</button>
-          
-          { this.state.showImages && this.state.images.map((image: any, index:any) =>
+          {/* <button onClick={() => { this.canvas.current.style.display = "block"; this.imageContainer.current.style.display = "none"; }} className="btn btn-warning eraseButton">Draw</button> */}
+
+          {this.state.showImages && this.state.images.map((image: any, index: any) =>
             <div key={index} className="bg-light refImage">
-            <img src={image}></img>
+              <img src={image} className="resultImage"></img>
             </div>
-            )}
-            {/* <img ref={this.image}></img> */}
-          
+          )}
+
         </div>
       </div>
 
