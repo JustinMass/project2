@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,15 +40,18 @@ public class UserController {
 		return user;
 	}
 	
-	// /users/update
+	// /users/:id
 	// this should save over any changes to score or upgrades that are passed in
-	@PostMapping("update")
-	public User update(@RequestBody User u) {
-		return us.update(u);
+	// uses id and passes in new user info
+	@PatchMapping("{id}")
+	public User update(@PathVariable int id, @RequestBody User u) {
+		User user = us.findOne(id);
+		return us.update(user, u);
 	}
 	
+	// create a new user
 	@PostMapping
-	public int save(@RequestBody User u) {
+	public User save(@RequestBody User u) {
 		//u.setId(1);
 		//ResponseEntity<User> re = new ResponseEntity<User>(u, HttpStatus.CREATED);
 		return us.save(u);

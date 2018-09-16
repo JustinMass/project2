@@ -27,8 +27,10 @@ public class UserService {
 		return u;
 	}
 	
-	public int save (User u) {
-		return ur.saveAndFlush(u).getId();
+	//create new user
+	public User save (User u) {
+		ur.saveAndFlush(u).getId();
+		return u;
 	}
 
 	public User login(String username, String password) {
@@ -36,7 +38,9 @@ public class UserService {
 	}
 
 	@Transactional
-	public User update(User u) {
+	public User update(User u, User updates) {
+		u.setPoints(updates.getPoints());
+		u.setUpgrades(updates.getUpgrades());
 		ur.saveAndFlush(u);
 		return u;
 	}
