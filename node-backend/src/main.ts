@@ -45,47 +45,89 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
-let players = [];
-let playerCt = 0;
-io.on('connection', (socket) => {
-    let id = ++playerCt;
-    players[id] = {
-        id,
-        art: ''
+const games = [];
+
+function Game(room){
+    const curGame = this;
+    curGame.players = [null, null, null, null, null, null];
+    curGame.isFull = false;
+    curGame.id = room;
+
+    // communication for single player in room
+    curGame.initPlayer = (socket) => {
+        let pId = -1;
+        socket.on('new player', () => {
+            for(let i=0; i<curGame.players.length; i++){
+                if(!curGame.players[i]){
+                    pId = i;
+                    curGame.players[i] = {
+                        art: '',
+                        id: Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
+                        score: 0
+                    };
+                    break;
+                }
+            }
+        });
+
+        socket.emit('player data', curGame.players[pId]);
+
+        socket.on('art transfer', (art) => {
+            curGame.players[pId].art = art;
+        });
+
+        socket.on('disconnect', function () {
+            curGame.players[pId] = null;
+        });
     };
 
-    socket.emit('player data', players[id]);
-
-    socket.on('art transfer', (art) => {
-        // arts.push(art);
-        players[id].art = art;
-
-        setTimeout(() => {
-            socket.emit('show art', players);
-
-            // setTimeout(() => {
-            //     arts = [];
-            // }, 5000);
-         }, 4000);
-    });
-
+    // communication for all players in room
     let finished = false;
     let time = 11;
     setInterval(() => {
         time--;
-        if(time>0) {
-            socket.emit('timer', time);
+        if(time>0){
+            io.to(room).emit('timer', time);
         }
         else if(!finished){
-            socket.emit('finish');
+            io.sockets.emit('finish');
             finished = true;
+        }
+        else {
+            io.to(room).emit('show art', curGame.players);
         }
     }, 1000);
 
+}
 
+io.on('connection', (socket) => {
+    let room = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER));
 
-    socket.on('disconnect', function () {
-        players[id] = null;
-        playerCt--;
-    });
+    if(games.length === 0){
+        games.push(new Game(room));
+        socket.join(room);
+        games[0].initPlayer(socket);
+        //socket.emit('start', room);
+    }
+    else{
+        let success = false;
+        for(let i = 0; i<games.length; i++){
+            let game = games[i];
+            if(!game.isFull){
+                socket.join(game.id);
+                games[i].initPlayer(socket);
+                //socket.emit('start', game.id);
+                success = true;
+                break;
+            }
+        }
+
+        //no open room found
+        if(!success){
+            games.push(new Game(room));
+            socket.join(room);
+            games[games.length-1].initPlayer(socket);
+            //socket.emit('start', room);
+        }
+    }
 });
