@@ -52,3 +52,14 @@ html, body {
 .resultsContainer {
   width: 100%;
 }
+
+.infoList {
+  margin-left: 30%;
+  font-size: 2em;
+  margin-bottom: .5em;
+}
+
+.goToGameButton {
+  margin-top: 1em;
+  margin-left: 30%;
+}

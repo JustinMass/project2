@@ -18,6 +18,7 @@ import com.revature.dto.Credential;
 import com.revature.model.Upgrade;
 import com.revature.model.User;
 import com.revature.services.UserService;
+
 @CrossOrigin
 @RestController
 @RequestMapping("users")
@@ -39,21 +40,24 @@ public class UserController {
 		User user = us.findOne(id);
 		return user;
 	}
-	
+
 	// /users/:id
 	// this should save over any changes to score or upgrades that are passed in
 	// uses id and passes in new user info
-	@PatchMapping("{id}")
-	public User update(@PathVariable int id, @RequestBody User u) {
-		User user = us.findOne(id);
-		return us.update(user, u);
+	@PatchMapping
+	public User update(@RequestBody User u) {
+		User user = us.findOne(u.getId());
+		if (user != null) {
+			return us.update(u);
+		}
+		return null;
 	}
-	
+
 	// create a new user
 	@PostMapping
 	public User save(@RequestBody User u) {
-		//u.setId(1);
-		//ResponseEntity<User> re = new ResponseEntity<User>(u, HttpStatus.CREATED);
+		// u.setId(1);
+		// ResponseEntity<User> re = new ResponseEntity<User>(u, HttpStatus.CREATED);
 		return us.save(u);
 	}
 
@@ -62,6 +66,5 @@ public class UserController {
 	public User login(@RequestBody Credential u) {
 		return us.login(u.getUsername(), u.getPassword());
 	}
-
 
 }
