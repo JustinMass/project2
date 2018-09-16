@@ -67,12 +67,12 @@ function Game(room){
                         id: Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
                         score: 0
                     };
+                    socket.emit('player data', curGame.players[pId]);
                     break;
                 }
             }
         });
-
-        socket.emit('player data', curGame.players[pId]);
+        
 
         socket.on('art transfer', (art) => {
             curGame.players[pId].art = art;
