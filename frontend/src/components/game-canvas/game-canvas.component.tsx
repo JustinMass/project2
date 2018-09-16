@@ -132,7 +132,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote() }} className="resultImage"></img>
-                  {user.id}
+                  {user.pId}
                 </div>
               </div>
 

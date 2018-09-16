@@ -65,6 +65,7 @@ function Game(room){
                     curGame.players[i] = {
                         art: '',
                         id: Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
+                        pId,
                         score: 0
                     };
                     socket.emit('player data', curGame.players[pId]);
@@ -90,7 +91,7 @@ function Game(room){
             io.to(room).emit('timer', curGame.time);
         }
         else if(!curGame.finished){
-            io.sockets.emit('finish');
+            io.to(room).emit('finish');
             curGame.finished = true;
         }
         else if(!curGame.artShown) {
