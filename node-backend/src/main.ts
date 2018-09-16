@@ -87,14 +87,14 @@ function Game(room){
     setInterval(() => {
         time--;
         if(time>0){
-            io.sockets.emit('timer', time);
+            io.to(room).emit('timer', time);
         }
         else if(!finished){
             io.sockets.emit('finish');
             finished = true;
         }
         else {
-            io.sockets.emit('show art', curGame.players);
+            io.to(room).emit('show art', curGame.players);
         }
     }, 1000);
 
