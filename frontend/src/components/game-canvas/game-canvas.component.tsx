@@ -67,6 +67,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
 
   public componentDidMount() {
+    this.socket.emit('new player' );
 
     this.socket.on('show art', (players: any[]) => {
       console.log(players);
