@@ -99,11 +99,11 @@ function Game(room){
             curGame.artShown = true;
 
             // wait a set amount of time for votes
-            setInterval(() => {
+            setTimeout(() => {
                 //TODO: Handle votes
 
                 // reset variables
-                curGame.timer = 11;
+                curGame.time = 11;
                 curGame.finished = false;
                 curGame.artShown = false;
             }, 5000);

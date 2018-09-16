@@ -20,7 +20,8 @@ export class GameCanvasComponent extends React.Component<any, any> {
   public user = {
     art: '',
     id: 0,
-    points: 0,
+    pId: 0,
+    points: 0
   };
 
   constructor(props: any) {
@@ -132,7 +133,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote() }} className="resultImage"></img>
-                  {user.pId}
+                  {user.pId + 1}
                 </div>
               </div>
 
