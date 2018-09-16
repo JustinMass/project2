@@ -12,7 +12,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
   public canvas: any;
   public users: any[];
   public imageContainer: any;
-  public showImages = false;
+  // public showImages = false;
   public isDrawing = false;
   public socket = io('http://localhost:3001');
   public drawColor = '#ff4141';
@@ -28,8 +28,9 @@ export class GameCanvasComponent extends React.Component<any, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      showImages: false,
       timer: '',
-      users: []
+      users: [],
     }
   }
 
@@ -62,7 +63,10 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
   public handleVote = () => {
     this.socket.emit('user vote', this.user.id);
-    console.log('in handle vote');
+    this.setState({
+      ...this.state,
+      showImages : false
+    })
   }
 
 
