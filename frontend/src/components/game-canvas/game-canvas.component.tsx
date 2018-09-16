@@ -17,7 +17,11 @@ export class GameCanvasComponent extends React.Component<any, any> {
   public socket = io('http://localhost:3001');
   public drawColor = '#ff4141';
   public lineWidth = 4;
-  public user = {};
+  public user = {
+    art: '',
+    id: 0,
+    points: 0,
+  };
 
   constructor(props: any) {
     super(props);
@@ -57,6 +61,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
   }
 
   public handleVote = () => {
+    this.socket.emit('user vote', this.user.id);
     console.log('in handle vote');
   }
 
