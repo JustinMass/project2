@@ -16,22 +16,31 @@ export class HomeComponent extends React.Component<IProps, {}> {
     public render() {
         return (
             <div className="container">
+            <div className="row">
+            <div className="col">
+            <h1 className="text-white text-center font-weight-bold welcomeMessage">Welcome to Drawctopus</h1>
+            </div>
+            </div>
                 <div className="row">
-                    <div className="col homeScreen">
-                    <h1 className="text-white text-center font-weight-bold">Welcome to Our Crappy Draw Game</h1>
-                    <br/>
-                    <img src={logo} alt="octopus" height="500" width="300"></img>
-                    <ul>
-                        <li className="text-white infoList">Join a lobby</li>
-                        <li className="text-white infoList">Draw the specified object within the time limit</li>
-                        <li className="text-white infoList">Vote whose drawing was the best</li>
-                        <li className="text-white infoList">Accumulate points by gettin' votes</li>
-                        <li className="text-white infoList">Spend points to buy upgrades</li>
-                        <li className="text-white infoList">Become the greatest web artist known to man</li>
-                    </ul>
-                        <button className="btn btn-dark goToGameButton" onClick={() => { this.goToGame() }}>Go To The Game</button>
+
+                    
+                    <br />
+                    <div className="col">
+                        <img src={logo} alt="octopus" height="500" width="400"></img>
+                    </div>
+                    <div className="col-7">
+                        <ul>
+                            <li className="text-white infoList">Join a Octopus lobby</li>
+                            <li className="text-white infoList">Draw the specified object within the time limit</li>
+                            <li className="text-white infoList">Vote to see which octopus's drawing was the best</li>
+                            <li className="text-white infoList">Accumulate ink sacks by gettin' votes</li>
+                            <li className="text-white infoList">Spend sacks to buy different tentacles</li>
+                            <li className="text-white infoList">Become the greatest octopus artist known to octopi</li>
+                        </ul>
                     </div>
                 </div>
+                <button className="btn btn-dark goToGameButton" onClick={() => { this.goToGame() }}>Go To The Game</button>
+
             </div>
         )
     }

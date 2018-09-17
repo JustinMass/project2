@@ -23,6 +23,12 @@ export class GameCanvasComponent extends React.Component<any, any> {
     pId: 0,
     points: 0
   };
+  public winner = {
+    art: '',
+    id: 0,
+    pId: 0,
+    points: 0
+  };
 
   constructor(props: any) {
     super(props);
@@ -30,6 +36,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
     this.imageContainer = React.createRef();
     this.state = {
       showImages: false,
+      showWinner: false,
       timer: '',
       users: [],
     }
@@ -66,7 +73,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
     this.socket.emit('user vote', pId);
     this.setState({
       ...this.state,
-      showImages : false
+      showImages: false
     })
     console.log('voted');
   }
@@ -105,9 +112,19 @@ export class GameCanvasComponent extends React.Component<any, any> {
 
     })
 
-    this.socket.on('player data', (player: any)=> {
-        this.user = player;
-        console.log(this.user);
+    this.socket.on('player data', (player: any) => {
+      this.user = player;
+      console.log(this.user);
+    })
+
+    this.socket.on('winner', (player: any) => {
+      console.log(player);
+      this.winner = player;
+      this.setState({
+        ...this.state,
+        showWinner: true
+      })
+
     })
   }
 
@@ -119,26 +136,33 @@ export class GameCanvasComponent extends React.Component<any, any> {
         onMouseUp={this.toggleDraw}>
         >
       <div id="gameCanvasContainer">
-          <h5 className="gameTimer">{this.state.timer}</h5>
+          {!this.state.showWinner && <h5 className="gameTimer">{this.state.timer}</h5>}
           <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>
           <br />
-          {!this.state.showImages && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
-          {!this.state.showImages && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
+          {!this.state.showImages && !this.state.showWinner && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
+          {!this.state.showImages && !this.state.showWinner && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
         </div>
 
         <div className="container resultsContainer">
           <div className="row">
-            {this.state.showImages && this.state.users.map((user: any) =>
-            user && 
+            {this.state.showImages && !this.state.showWinner && this.state.users.map((user: any) =>
+              user &&
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage"></img>
                   {user.pId + 1}
                 </div>
               </div>
-
             )}
+            {this.state.showWinner && this.winner &&
+              <div>
+                <div className="bg-light refImage text-light">
+                  <img className="resultImage" src={this.winner.art}></img>
+                </div>
+                <h2 className="text-light">Winner is User {this.winner.pId + 1}</h2>
+              </div>
+            }
           </div>
         </div>
       </div>
