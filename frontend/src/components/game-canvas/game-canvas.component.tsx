@@ -94,6 +94,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     });
     const ctx = this.getContext();
     ctx.clearRect(0, 0, this.canvas.current.width, this.canvas.current.height);
+    this.isDrawing = false;
   }
 
 
@@ -112,21 +113,22 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     })
 
-    this.socket.on('timer', (timer: any) => {
+    this.socket.on('state', (serverState: any) => {
       this.setState({
-        timer: 'Draw: ' + timer
+        timer: 'Draw: ' + serverState.time,
+        topic: serverState.topic
       });
     })
 
-    this.socket.on('vote timer', (timer: any) => {
+    this.socket.on('vote state', (serverState: any) => {
       this.setState({
-        timer: 'Vote time: ' + timer
+        timer: 'Vote time: ' + serverState.time
       });
     })
 
-    this.socket.on('wait timer', (timer: any) => {
+    this.socket.on('wait state', (serverState: any) => {
       this.setState({
-        timer: 'New Match In : ' + timer
+        timer: 'New Match In : ' + serverState.time
       });
     })
 
@@ -175,7 +177,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     return (
       <div id="canvasComponentContainer"
         onMouseMove={(this.state.showCanvas ? this.draw : () => { console.log() })}
-        onMouseDown={(e: any) => { if (this.state.showCanvas) { this.toggleDraw(); this.startDraw(e); } }}
+        onMouseDown={(e: any) => { if (this.state.showCanvas) { this.isDrawing = true; this.startDraw(e); } }}
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         >
       <div id="gameCanvasContainer">
