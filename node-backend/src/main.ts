@@ -87,7 +87,7 @@ function Game(room){
         });
 
         socket.on('get data', () => {
-           socket.emit('player data', curGame.player[pId]);
+           socket.emit('player data', curGame.players[pId]);
         });
 
         socket.on('art transfer', (art) => {
@@ -137,7 +137,7 @@ function Game(room){
                         }
 
                         if(curGame.players[i]) {
-                            curGame.players[i].score += curGame.tallies[i];
+                            curGame.players[i].score += curGame.tallies[i]*10;
                         }
                     }
 
