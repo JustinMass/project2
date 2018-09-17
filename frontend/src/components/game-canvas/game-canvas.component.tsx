@@ -107,18 +107,24 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         showImages: true,
         users: players
       })
-     
+
     })
 
     this.socket.on('timer', (timer: any) => {
       this.setState({
-        timer
+        timer: 'Draw: ' + timer
       });
     })
 
     this.socket.on('vote timer', (timer: any) => {
       this.setState({
         timer: 'Vote time: ' + timer
+      });
+    })
+
+    this.socket.on('wait timer', (timer: any) => {
+      this.setState({
+        timer: 'Joining New Lobby in : ' + timer
       });
     })
 
@@ -136,6 +142,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     })
 
     this.socket.on('player data', (player: any) => {
+      console.log('setting player data');
       this.user = player;
       console.log(this.user);
     })
@@ -148,20 +155,25 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         ...this.state,
         showImages: false,
         showWinner: true
-      })
-
+      });
+      this.socket.emit('get data');
     })
+
+    this.socket.on('done waiting', () => {
+      this.resetGame();
+    })
+
   }
 
   public render() {
     return (
-       <div id="canvasComponentContainer"
-        onMouseMove={this.state.showCanvas && this.draw}
-        onMouseDown={(e: any) => { if(this.state.showCanvas) {this.toggleDraw();  this.startDraw(e);} }}
-        onMouseUp={this.state.showCanvas && this.toggleDraw}>
+      <div id="canvasComponentContainer"
+        onMouseMove={(this.state.showCanvas ? this.draw : () => { console.log() })}
+        onMouseDown={(e: any) => { if (this.state.showCanvas) { this.toggleDraw(); this.startDraw(e); } }}
+        onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         >
       <div id="gameCanvasContainer">
-          {!this.state.showWinner && <h5 className="gameTimer">{this.state.timer}</h5>}
+          {<h5 className="gameTimer">{this.state.timer}</h5>}
           {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>}
           <br />
@@ -187,11 +199,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 </div>
                 <h2 className="text-light">Winner is User {this.winner.pId + 1}</h2>
                 <br />
-                <h4 className="text-light">Joining New Lobby..</h4>
-                {setTimeout(() => {
-                  console.log('in resetGame');
-                  this.resetGame();
-                }, 8000)}
+                {/* <h4 className="text-light">Joining New Lobby..</h4> */}
+
               </div>
             }
           </div>
