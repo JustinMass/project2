@@ -30,7 +30,7 @@ export class HomeComponent extends React.Component<IProps, {}> {
                     </div>
                     <div className="col-7">
                         <ul>
-                            <li className="text-white infoList">Join a Octopus lobby</li>
+                            <li className="text-white infoList">Join an Octopus lobby</li>
                             <li className="text-white infoList">Draw the specified object within the time limit</li>
                             <li className="text-white infoList">Vote to see which octopus's drawing was the best</li>
                             <li className="text-white infoList">Accumulate ink sacks by gettin' votes</li>
