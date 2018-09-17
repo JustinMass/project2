@@ -45,7 +45,7 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
-const topics = ['Blake Kruppa', 'Fish', 'Chair', 'Regret'];
+const topics = ['Blake Kruppa', 'Fish', 'Chair', 'Regret', 'Hindsight', 'Fishing', 'Bike', 'Airplane'];
 
 const games = [];
 
