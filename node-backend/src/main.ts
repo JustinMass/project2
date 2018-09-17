@@ -134,6 +134,8 @@ function Game(room){
                             io.to(room).emit('wait timer', waitTime);
                         }
                         else{
+                            io.to(room).emit('done waiting');
+
                             // reset variables
                             curGame.time = 11;
                             curGame.finished = false;
