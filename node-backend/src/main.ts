@@ -103,28 +103,34 @@ function Game(room){
             io.to(room).emit('show art', curGame.players);
             curGame.artShown = true;
 
+            let voteTimer = 9;
             // wait a set amount of time for votes
-            setTimeout(() => {
-                //TODO: Handle votes
-                let winnerId = -1;
-                let max = 0;
-                for(let i=0; i<curGame.tallies.length; i++) {
-                    if (curGame.tallies[i] > max) {
-                        max = curGame.tallies[i];
-                        winnerId = i;
+            let waitInter =  setInterval(() => {
+                if(voteTimer>0){
+                    io.to(room).emit('vote timer', --voteTimer);
+                }
+                else {
+                    let winnerId = -1;
+                    let max = 0;
+                    for (let i = 0; i < curGame.tallies.length; i++) {
+                        if (curGame.tallies[i] > max) {
+                            max = curGame.tallies[i];
+                            winnerId = i;
+                        }
                     }
-                }
 
-                io.to(room).emit('winner', curGame.players[winnerId]);
+                    io.to(room).emit('winner', curGame.players[winnerId]);
 
-                // reset variables
-                curGame.time = 11;
-                curGame.finished = false;
-                curGame.artShown = false;
-                for(let i=0; i<curGame.tallies.length; i++){
-                    curGame.tallies[i] = 0;
+                    // reset variables
+                    curGame.time = 11;
+                    curGame.finished = false;
+                    curGame.artShown = false;
+                    for (let i = 0; i < curGame.tallies.length; i++) {
+                        curGame.tallies[i] = 0;
+                    }
+                    clearInterval(waitInter);
                 }
-            }, 5000);
+            }, 1000);
         }
     }, 1000);
 
