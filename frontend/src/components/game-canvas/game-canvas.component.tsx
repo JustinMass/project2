@@ -25,13 +25,13 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     art: '',
     id: 0,
     pId: 0,
-    points: 0
+    score: 0
   };
   public winner = {
     art: '',
     id: 0,
     pId: 0,
-    points: 0
+    score: 0
   };
 
   constructor(props: any) {
@@ -39,6 +39,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      score: 0,
       showCanvas: true,
       showImages: false,
       showWinner: false,
@@ -144,6 +145,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.on('player data', (player: any) => {
       console.log('setting player data');
       this.user = player;
+      this.setState({
+        ...this.state,
+        score: 'Sacks: ' + this.user.score
+      })
       console.log(this.user);
     })
 
@@ -174,6 +179,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         >
       <div id="gameCanvasContainer">
           {<h5 className="gameTimer">{this.state.timer}</h5>}
+          {<h5 className="gameTimer">{this.state.score}</h5>}
           {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>}
           <br />

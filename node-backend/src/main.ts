@@ -87,7 +87,7 @@ function Game(room){
         });
 
         socket.on('get data', () => {
-           socket.emit('player data', curGame.player[pId]);
+           socket.emit('player data', curGame.players[pId]);
         });
 
         socket.on('art transfer', (art) => {
