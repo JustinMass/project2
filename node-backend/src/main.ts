@@ -108,13 +108,12 @@ function Game(room){
                 //TODO: Handle votes
                 let winnerId = -1;
                 let max = 0;
-                for(let i=0; i<curGame.tallies.length; i++){
-                    if(curGame.tallies[i]>max){
+                for(let i=0; i<curGame.tallies.length; i++) {
+                    if (curGame.tallies[i] > max) {
                         max = curGame.tallies[i];
                         winnerId = i;
                     }
                 }
-                console.log(winnerId);
 
                 io.to(room).emit('winner', curGame.players[winnerId]);
 
@@ -138,7 +137,6 @@ io.on('connection', (socket) => {
         games.push(new Game(room));
         socket.join(room);
         games[0].initPlayer(socket);
-        //socket.emit('start', room);
     }
     else{
         let success = false;
@@ -147,7 +145,6 @@ io.on('connection', (socket) => {
             if(!game.isFull){
                 socket.join(game.id);
                 games[i].initPlayer(socket);
-                //socket.emit('start', game.id);
                 success = true;
                 break;
             }
@@ -158,7 +155,6 @@ io.on('connection', (socket) => {
             games.push(new Game(room));
             socket.join(room);
             games[games.length-1].initPlayer(socket);
-            //socket.emit('start', room);
         }
     }
 });
