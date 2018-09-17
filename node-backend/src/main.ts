@@ -134,7 +134,7 @@ function Game(room){
                     let waitTime = 11;
                     let waitInterval = setInterval(() => {
                         if(waitTime>0){
-                            io.to(room).emit('wait timer', waitTime);
+                            io.to(room).emit('wait timer', --waitTime);
                         }
                         else{
                             io.to(room).emit('done waiting');
