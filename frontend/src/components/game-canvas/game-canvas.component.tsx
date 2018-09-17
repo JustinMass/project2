@@ -62,12 +62,13 @@ export class GameCanvasComponent extends React.Component<any, any> {
     context.beginPath();
   }
 
-  public handleVote = () => {
-    this.socket.emit('user vote', this.user.id);
+  public handleVote = (pId: any) => {
+    this.socket.emit('user vote', pId);
     this.setState({
       ...this.state,
       showImages : false
     })
+    console.log('voted');
   }
 
 
@@ -132,7 +133,7 @@ export class GameCanvasComponent extends React.Component<any, any> {
             user && 
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
-                  <img src={user.art} onClick={() => { this.handleVote() }} className="resultImage"></img>
+                  <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage"></img>
                   {user.pId + 1}
                 </div>
               </div>

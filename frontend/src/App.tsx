@@ -11,7 +11,7 @@ import { GameCanvasComponent } from './components/game-canvas/game-canvas.compon
 class App extends React.Component {
 
   public componentDidMount() {
-    document.title = "Draw Thing";
+    document.title = "Drawctopus";
   }
   public render() {
     return (

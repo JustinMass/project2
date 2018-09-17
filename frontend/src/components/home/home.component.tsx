@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import logo from '../../assets/Picture1.png'
 
 interface IProps extends RouteComponentProps<{}> {
 
@@ -19,6 +20,7 @@ export class HomeComponent extends React.Component<IProps, {}> {
                     <div className="col homeScreen">
                     <h1 className="text-white text-center font-weight-bold">Welcome to Our Crappy Draw Game</h1>
                     <br/>
+                    <img src={logo} alt="octopus" height="500" width="300"></img>
                     <ul>
                         <li className="text-white infoList">Join a lobby</li>
                         <li className="text-white infoList">Draw the specified object within the time limit</li>
