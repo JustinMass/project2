@@ -82,6 +82,15 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     console.log('voted');
   }
 
+  public resetGame = () => {
+    this.setState({
+      ...this.state,
+      showImages: false,
+      showWinner: false
+    })
+    this.canvas.current.style.display = "block";
+  }
+
 
   public componentDidMount() {
     this.socket.emit('new player');
@@ -110,10 +119,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         timer: "Time's Up!"
       })
       const current = this.canvas.current;
-      if (current){
-      const image = new Image();
-      image.src = current.toDataURL("image/png");
-      this.socket.emit('art transfer', image.src);
+      if (current) {
+        const image = new Image();
+        image.src = current.toDataURL("image/png");
+        this.socket.emit('art transfer', image.src);
       }
 
     })
@@ -167,9 +176,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                   <img className="resultImage" src={this.winner.art}></img>
                 </div>
                 <h2 className="text-light">Winner is User {this.winner.pId + 1}</h2>
-                {setTimeout( ()=> {
-                  this.socket.disconnect();
-                  this.props.history.push('');
+                <br />
+                <h4 className="text-light">Joining New Lobby..</h4>
+                {setTimeout(() => {
+                  this.resetGame();
                 }, 8000)}
               </div>
             }
