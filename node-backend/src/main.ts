@@ -58,7 +58,8 @@ function Game(room){
     curGame.time = 11;
     curGame.tallies = [0, 0, 0, 0, 0, 0];
 
-    // sets random topic
+    // sets default topic
+    curGame.lastTopic = 'default';
     curGame.topic = 'default';
 
     // communication for single player in room
@@ -108,7 +109,6 @@ function Game(room){
             curGame.isFull = false;
         });
     };
-
 
     curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
     // communication for all players in room
@@ -177,7 +177,10 @@ function Game(room){
                             curGame.time = 11;
                             curGame.finished = false;
                             curGame.artShown = false;
-                            curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
+                            while(curGame.topic === curGame.lastTopic) {
+                                curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
+                            }
+                            curGame.lastTopic = curGame.topic;
                             for (let i = 0; i < curGame.tallies.length; i++) {
                                 curGame.tallies[i] = 0;
                             }
