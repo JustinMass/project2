@@ -117,6 +117,10 @@ function Game(room){
                             max = curGame.tallies[i];
                             winnerId = i;
                         }
+
+                        if(curGame.players[i]) {
+                            curGame.players[i].score += curGame.tallies[i];
+                        }
                     }
 
                     io.to(room).emit('winner', curGame.players[winnerId]);
