@@ -110,6 +110,8 @@ function Game(room){
                     io.to(room).emit('vote timer', --voteTimer);
                 }
                 else {
+
+                    // calculate winner
                     let winnerId = -1;
                     let max = 0;
                     for (let i = 0; i < curGame.tallies.length; i++) {
@@ -123,16 +125,26 @@ function Game(room){
                         }
                     }
 
+                    // emit winner
                     io.to(room).emit('winner', curGame.players[winnerId]);
 
-                    // reset variables
-                    curGame.time = 11;
-                    curGame.finished = false;
-                    curGame.artShown = false;
-                    for (let i = 0; i < curGame.tallies.length; i++) {
-                        curGame.tallies[i] = 0;
-                    }
-                    clearInterval(waitInter);
+                    let waitTime = 11;
+                    let waitInterval = setInterval(() => {
+                        if(waitTime>0){
+                            io.to(room).emit('wait timer', waitTime);
+                        }
+                        else{
+                            // reset variables
+                            curGame.time = 11;
+                            curGame.finished = false;
+                            curGame.artShown = false;
+                            for (let i = 0; i < curGame.tallies.length; i++) {
+                                curGame.tallies[i] = 0;
+                            }
+                            clearInterval(waitInter);
+                            clearInterval(waitInterval);
+                        }
+                    }, 1000);
                 }
             }, 1000);
         }
