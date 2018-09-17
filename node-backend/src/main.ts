@@ -102,6 +102,7 @@ function Game(room){
         else if(!curGame.artShown) {
             io.to(room).emit('show art', curGame.players);
             curGame.artShown = true;
+            let winnerShown = false;
 
             let voteTimer = 9;
             // wait a set amount of time for votes
@@ -109,7 +110,7 @@ function Game(room){
                 if(voteTimer>0){
                     io.to(room).emit('vote timer', --voteTimer);
                 }
-                else {
+                else if(!winnerShown){
 
                     // calculate winner
                     let winnerId = -1;
@@ -127,6 +128,8 @@ function Game(room){
 
                     // emit winner
                     io.to(room).emit('winner', curGame.players[winnerId]);
+
+                    winnerShown = true;
 
                     let waitTime = 11;
                     let waitInterval = setInterval(() => {
