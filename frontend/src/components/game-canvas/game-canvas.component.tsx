@@ -1,13 +1,17 @@
 import * as React from 'react';
 import * as io from 'socket.io-client';
+import { RouteComponentProps } from 'react-router';
 // import * as $ from 'jquery';
 
 // interface IProps extends IPokemonState {
 //   fetchPokemon: (id: number) => any,
 //   updateId: (id: number) => any
 // }
+interface IProps extends RouteComponentProps<{}> {
 
-export class GameCanvasComponent extends React.Component<any, any> {
+}
+
+export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public canvas: any;
   public users: any[];
@@ -161,6 +165,10 @@ export class GameCanvasComponent extends React.Component<any, any> {
                   <img className="resultImage" src={this.winner.art}></img>
                 </div>
                 <h2 className="text-light">Winner is User {this.winner.pId + 1}</h2>
+                {setTimeout( ()=> {
+                  this.socket.disconnect();
+                  this.props.history.push('');
+                }, 8000)}
               </div>
             }
           </div>
