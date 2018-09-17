@@ -25,13 +25,13 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     art: '',
     id: 0,
     pId: 0,
-    points: 0
+    score: 0
   };
   public winner = {
     art: '',
     id: 0,
     pId: 0,
-    points: 0
+    score: 0
   };
 
   constructor(props: any) {
@@ -39,10 +39,12 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      score: 0,
       showCanvas: true,
       showImages: false,
       showWinner: false,
       timer: '',
+      topic: 'blake kruppa',
       users: [],
     }
   }
@@ -124,7 +126,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     this.socket.on('wait timer', (timer: any) => {
       this.setState({
-        timer: 'Joining New Lobby in : ' + timer
+        timer: 'New Match In : ' + timer
       });
     })
 
@@ -144,6 +146,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.on('player data', (player: any) => {
       console.log('setting player data');
       this.user = player;
+      this.setState({
+        ...this.state,
+        score: 'Sacks: ' + this.user.score
+      })
       console.log(this.user);
     })
 
@@ -174,6 +180,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         >
       <div id="gameCanvasContainer">
           {<h5 className="gameTimer">{this.state.timer}</h5>}
+          {(this.state.showCanvas || this.state.showImages) && <h5 className="gameTimer">Topic: {this.state.topic}</h5>}
+          {<h5 className="gameTimer">{this.state.score}</h5>}
           {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>}
           <br />
@@ -197,7 +205,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 <div className="bg-light refImage text-light">
                   <img className="resultImage" src={this.winner.art}></img>
                 </div>
-                <h2 className="text-light">Winner is User {this.winner.pId + 1}</h2>
+                <h2 className="text-light">User {this.winner.pId + 1} Wins!</h2>
+                <h3 className="text-light">Topic: {this.state.topic}</h3>
                 <br />
                 {/* <h4 className="text-light">Joining New Lobby..</h4> */}
 
