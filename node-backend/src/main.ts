@@ -54,6 +54,7 @@ function Game(room){
     curGame.id = room;
     curGame.finished = false;
     curGame.time = 11;
+    curGame.tallies = [0, 0, 0, 0, 0, 0];
 
     // communication for single player in room
     curGame.initPlayer = (socket) => {
@@ -79,6 +80,10 @@ function Game(room){
             curGame.players[pId].art = art;
         });
 
+        socket.on('user vote', (voteId) => {
+            curGame.tallies[voteId]++;
+        });
+
         socket.on('disconnect', function () {
             curGame.players[pId] = null;
         });
@@ -101,11 +106,25 @@ function Game(room){
             // wait a set amount of time for votes
             setTimeout(() => {
                 //TODO: Handle votes
+                let winnerId = -1;
+                let max = 0;
+                for(let i=0; i<curGame.tallies.length; i++){
+                    if(curGame.tallies[i]>max){
+                        max = curGame.tallies[i];
+                        winnerId = i;
+                    }
+                }
+                console.log(winnerId);
+
+                io.to(room).emit('winner', curGame.players[winnerId]);
 
                 // reset variables
                 curGame.time = 11;
                 curGame.finished = false;
                 curGame.artShown = false;
+                for(let i=0; i<curGame.tallies.length; i++){
+                    curGame.tallies[i] = 0;
+                }
             }, 5000);
         }
     }, 1000);
