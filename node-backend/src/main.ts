@@ -101,7 +101,9 @@ function Game(room){
         });
 
         socket.on('user vote', (voteId) => {
-            curGame.tallies[voteId]++;
+            if(pId !== voteId) {
+                curGame.tallies[voteId]++;
+            }
         });
 
         socket.on('disconnect', function () {
