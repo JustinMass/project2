@@ -110,9 +110,11 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         timer: "Time's Up!"
       })
       const current = this.canvas.current;
+      if (current){
       const image = new Image();
       image.src = current.toDataURL("image/png");
       this.socket.emit('art transfer', image.src);
+      }
 
     })
 
