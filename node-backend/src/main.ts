@@ -111,6 +111,7 @@ function Game(room){
     };
 
     curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
+    curGame.lastTopic = curGame.topic;
     // communication for all players in room
     setInterval(() => {
         curGame.time--;
