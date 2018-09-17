@@ -39,6 +39,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      showCanvas: true,
       showImages: false,
       showWinner: false,
       timer: '',
@@ -78,17 +79,19 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.setState({
       ...this.state,
       showImages: false
-    })
+    });
     console.log('voted');
   }
 
   public resetGame = () => {
     this.setState({
       ...this.state,
+      showCanvas: true,
       showImages: false,
       showWinner: false
-    })
-    this.canvas.current.style.display = "block";
+    });
+    const ctx = this.getContext();
+    ctx.clearRect(0, 0, this.canvas.current.width, this.canvas.current.height);
   }
 
 
@@ -96,21 +99,26 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.emit('new player');
 
     this.socket.on('show art', (players: any[]) => {
+      console.log('in show art');
       console.log(players);
       this.setState({
         ...this.state,
+        showCanvas: false,
+        showImages: true,
         users: players
       })
-      this.setState({
-        ...this.state,
-        showImages: true
-      })
-      this.canvas.current.style.display = "none";
+     
     })
 
     this.socket.on('timer', (timer: any) => {
       this.setState({
         timer
+      });
+    })
+
+    this.socket.on('vote timer', (timer: any) => {
+      this.setState({
+        timer: 'Vote time: ' + timer
       });
     })
 
@@ -133,10 +141,12 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     })
 
     this.socket.on('winner', (player: any) => {
+      console.log('in winner');
       console.log(player);
       this.winner = player;
       this.setState({
         ...this.state,
+        showImages: false,
         showWinner: true
       })
 
@@ -145,23 +155,23 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public render() {
     return (
-      <div id="canvasComponentContainer"
-        onMouseMove={this.draw}
-        onMouseDown={(e: any) => { this.toggleDraw(); this.startDraw(e); }}
-        onMouseUp={this.toggleDraw}>
+       <div id="canvasComponentContainer"
+        onMouseMove={this.state.showCanvas && this.draw}
+        onMouseDown={(e: any) => { if(this.state.showCanvas) {this.toggleDraw();  this.startDraw(e);} }}
+        onMouseUp={this.state.showCanvas && this.toggleDraw}>
         >
       <div id="gameCanvasContainer">
           {!this.state.showWinner && <h5 className="gameTimer">{this.state.timer}</h5>}
-          <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
-          </canvas>
+          {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
+          </canvas>}
           <br />
-          {!this.state.showImages && !this.state.showWinner && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
-          {!this.state.showImages && !this.state.showWinner && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
+          {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
+          {this.state.showCanvas && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
         </div>
 
         <div className="container resultsContainer">
           <div className="row">
-            {this.state.showImages && !this.state.showWinner && this.state.users.map((user: any) =>
+            {this.state.showImages && this.state.users.map((user: any) =>
               user &&
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
@@ -179,6 +189,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 <br />
                 <h4 className="text-light">Joining New Lobby..</h4>
                 {setTimeout(() => {
+                  console.log('in resetGame');
                   this.resetGame();
                 }, 8000)}
               </div>
