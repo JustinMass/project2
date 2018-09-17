@@ -45,6 +45,8 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
+const topics = ['Blake Kruppa', 'Fish', 'Chair', 'Regret'];
+
 const games = [];
 
 function Game(room){
@@ -55,6 +57,9 @@ function Game(room){
     curGame.finished = false;
     curGame.time = 11;
     curGame.tallies = [0, 0, 0, 0, 0, 0];
+
+    // sets random topic
+    curGame.topic = 'default';
 
     // communication for single player in room
     curGame.initPlayer = (socket) => {
@@ -104,11 +109,17 @@ function Game(room){
         });
     };
 
+
+    curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
     // communication for all players in room
     setInterval(() => {
         curGame.time--;
         if(curGame.time>0){
-            io.to(room).emit('timer', curGame.time);
+            let state = {
+                time: curGame.time,
+                topic: curGame.topic
+            };
+            io.to(room).emit('state', state);
         }
         else if(!curGame.finished){
             io.to(room).emit('finish');
@@ -123,7 +134,11 @@ function Game(room){
             // wait a set amount of time for votes
             let waitInter =  setInterval(() => {
                 if(voteTimer>0){
-                    io.to(room).emit('vote timer', --voteTimer);
+                    let state = {
+                        time: --voteTimer,
+                        topic: curGame.topic
+                    };
+                    io.to(room).emit('vote state', state);
                 }
                 else if(!winnerShown){
 
@@ -149,7 +164,11 @@ function Game(room){
                     let waitTime = 11;
                     let waitInterval = setInterval(() => {
                         if(waitTime>0){
-                            io.to(room).emit('wait timer', --waitTime);
+                            let state = {
+                                time: --waitTime,
+                                topic: curGame.topic
+                            };
+                            io.to(room).emit('wait state', state);
                         }
                         else{
                             io.to(room).emit('done waiting');
@@ -158,6 +177,7 @@ function Game(room){
                             curGame.time = 11;
                             curGame.finished = false;
                             curGame.artShown = false;
+                            curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
                             for (let i = 0; i < curGame.tallies.length; i++) {
                                 curGame.tallies[i] = 0;
                             }
