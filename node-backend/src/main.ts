@@ -73,8 +73,22 @@ function Game(room){
                     break;
                 }
             }
+
+            let available = false;
+            for(let i=0; i<curGame.players.length; i++){
+                if(!curGame.players[i]) {
+                    available = true;
+                }
+            }
+
+            if(!available){
+                curGame.isFull = true;
+            }
         });
-        
+
+        socket.on('get data', () => {
+           socket.emit('player data', curGame.player[pId]);
+        });
 
         socket.on('art transfer', (art) => {
             curGame.players[pId].art = art;
@@ -86,6 +100,7 @@ function Game(room){
 
         socket.on('disconnect', function () {
             curGame.players[pId] = null;
+            curGame.isFull = false;
         });
     };
 
