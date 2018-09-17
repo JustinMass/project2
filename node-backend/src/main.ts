@@ -137,7 +137,7 @@ function Game(room){
                         }
 
                         if(curGame.players[i]) {
-                            curGame.players[i].score += curGame.tallies[i];
+                            curGame.players[i].score += curGame.tallies[i]*10;
                         }
                     }
 
