@@ -14,7 +14,7 @@ interface IProps extends RouteComponentProps<{}> {
 export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public canvas: any;
-  public users: any[];
+  // public users: any[];
   public imageContainer: any;
   public isDrawing = false;
   public socket = io('http://localhost:3001');
@@ -45,6 +45,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       timer: '',
       topic: 'blake kruppa',
       users: [],
+      winners: []
     }
   }
 
@@ -154,14 +155,14 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       console.log(this.user);
     })
 
-    this.socket.on('winner', (player: any) => {
+    this.socket.on('winners', (winners: any[]) => {
       console.log('in winner');
-      console.log(player);
-      this.winner = player;
+      console.log(winners);
       this.setState({
         ...this.state,
         showImages: false,
-        showWinner: true
+        showWinner: true,
+        winners
       });
       this.socket.emit('get data');
     })
@@ -201,18 +202,22 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 </div>
               </div>
             )}
-            {this.state.showWinner && this.winner &&
-              <div>
-                <div className="bg-light refImage text-light">
-                  <img className="resultImage" src={this.winner.art}></img>
-                </div>
-                <h2 className="text-light">User {this.winner.pId + 1} Wins!</h2>
-                <h3 className="text-light">Topic: {this.state.topic}</h3>
-                <br />
-                {/* <h4 className="text-light">Joining New Lobby..</h4> */}
+            <div className="container">
+              <div className="row">
+                {this.state.showWinner && this.state.winners.map((winner: any) =>
 
+                  <div key={winner.pId} className="col">
+                    <div className="bg-light refImage text-light">
+                      <img className="resultImage" src={winner.art}></img>
+                    </div>
+                    <h2 className="text-light winnerLabel">User {winner.pId + 1} Wins!</h2>
+                    <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
+                    {/* <h4 className="text-light">Joining New Lobby..</h4> */}
+                  </div>
+
+                )}
               </div>
-            }
+            </div>
           </div>
         </div>
       </div>
