@@ -16,7 +16,6 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   public canvas: any;
   public users: any[];
   public imageContainer: any;
-  // public showImages = false;
   public isDrawing = false;
   public socket = io('http://localhost:3001');
   public drawColor = '#ff4141';
@@ -122,7 +121,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     this.socket.on('vote state', (serverState: any) => {
       this.setState({
-        timer: 'Vote time: ' + serverState.time
+        timer: 'Vote For Another Octopus: ' + serverState.time
       });
     })
 
@@ -194,7 +193,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         <div className="container resultsContainer">
           <div className="row">
             {this.state.showImages && this.state.users.map((user: any) =>
-              user &&
+              user && (user.pId !== this.user.pId) &&
               <div key={user.id} className="col">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage"></img>
