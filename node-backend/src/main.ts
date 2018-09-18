@@ -145,22 +145,30 @@ function Game(room){
                 }
                 else if(!winnerShown){
 
-                    // calculate winner
-                    let winnerId = -1;
+                    let winners = [];
                     let max = 0;
+                    // calculate max
                     for (let i = 0; i < curGame.tallies.length; i++) {
                         if (curGame.tallies[i] > max) {
                             max = curGame.tallies[i];
-                            winnerId = i;
+                            // winnerId = i;
                         }
 
+                        // calculate points for each player
                         if(curGame.players[i]) {
                             curGame.players[i].score += curGame.tallies[i]*10;
                         }
                     }
 
+                    // calculate winner
+                    for (let i = 0; i < curGame.tallies.length; i++) {
+                        if(curGame.tallies[i] === max && max !== 0){
+                            winners.push(curGame.players[i]);
+                        }
+                    }
+
                     // emit winner
-                    io.to(room).emit('winner', curGame.players[winnerId]);
+                    io.to(room).emit('winners', winners);
 
                     winnerShown = true;
 
