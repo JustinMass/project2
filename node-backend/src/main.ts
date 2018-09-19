@@ -76,7 +76,8 @@ function Game(room){
                         art: '',
                         id: Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
                         pId,
-                        score: 0
+                        score: 0,
+                        upgrades: []
                     };
                     socket.emit('player data', curGame.players[pId]);
                     curGame.playerCt++;
@@ -108,6 +109,21 @@ function Game(room){
             if(pId !== voteId) {
                 curGame.tallies[voteId]++;
             }
+        });
+
+        socket.on('buy upgrade', (upgradeObj) => {
+           let player = curGame.players[upgradeObj.user.pId];
+           let upgrade = upgradeObj.upgrade;
+
+           if(player.score>=20){
+               player.score -= 20;
+               player.upgrades.push(upgrade);
+               socket.emit('player data', player);
+           }
+           else{
+               socket.emit('purchase failure');
+           }
+
         });
 
         socket.on('disconnect', function () {
