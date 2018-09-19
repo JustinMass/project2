@@ -136,6 +136,9 @@ function Game(room){
                    player.upgrades.push(upgrade);
                    socket.emit('player data', player);
                }
+               else{
+                   socket.emit('purchase failure');
+               }
            }
            else{
                socket.emit('purchase failure');
