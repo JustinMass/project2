@@ -115,7 +115,7 @@ function Game(room){
            let player = curGame.players[upgradeObj.user.pId];
            let upgrade = upgradeObj.upgrade;
 
-           if(player.score>=20){
+           if(player.score>=20 && !player.upgrades.includes(upgrade)){
                player.score -= 20;
                player.upgrades.push(upgrade);
                socket.emit('player data', player);
