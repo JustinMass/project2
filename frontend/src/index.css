@@ -16,7 +16,7 @@ html, body {
 }
 
 .eraseButton {
-  margin-left: 3em;
+  margin-left: .2em;
 }
 
 #canvasComponentContainer {
@@ -73,4 +73,21 @@ html, body {
 
 .upgradeButton {
   margin-top: .5em;
+  margin-bottom: 1em;
+  font-size: .85em;
+}
+
+#failedPurchase {
+  color:red;
+  width: 600px;
+}
+
+.buyUpgradeButton {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.eraseBackground {
+  background-color: pink;
+  font-size: .7em;
 }
