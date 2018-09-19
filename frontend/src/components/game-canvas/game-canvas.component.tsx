@@ -23,6 +23,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   public user = {
     art: '',
     id: 0,
+    message: '',
+    messages: [],
     pId: 0,
     score: 0,
     upgrades: []
@@ -34,6 +36,9 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      author: '',
+      message: '',
+      messages: [],
       score: 0,
       showCanvas: false,
       showImages: false,
@@ -47,9 +52,21 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     }
   }
 
+  
+
   public getContext(): CanvasRenderingContext2D {
     return this.canvas.current.getContext("2d");
   }
+
+  public sendMessage = (ev: any) => {
+    ev.preventDefault();
+    this.socket.emit('SEND_MESSAGE', {
+        author: this.state.username,
+        message: this.state.message
+    })
+    this.setState({message: ''});
+
+}
 
   public draw = (e: any) => {
     if (this.isDrawing) {
@@ -118,6 +135,17 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       })
 
     })
+
+    // receiving messages
+    this.socket.on('RECEIVE_MESSAGE', (data:any) => {
+      addMessage(data);
+    })
+
+    const addMessage = (data:any) => {
+      // console.log(data);
+      this.setState({messages: [...this.state.messages, data]});
+      // console.log(this.state.messages);
+    }
 
     this.socket.on('state', (serverState: any) => {
       this.setState({
@@ -210,7 +238,32 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         onMouseDown={(e: any) => { if (this.state.showCanvas) { this.isDrawing = true; this.startDraw(e); } }}
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         >
+        <div className="chatContainer">
+                <div className="row">
+                    <div className="col-2">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="card-title">Chat</div>
+                                <hr/>
+                                <div className="messages">
+                                    {this.state.messages.map((message: any) => {
+                                        return (
+                                            <div key = {message}>{this.user.id}: {message.message}</div>
+                                        )
+                                    })}
+                                </div>
 
+                            </div>
+                            <div className="card-footer">
+                                
+                                <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
+                                <br/>
+                                <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
       <div id="gameCanvasContainer">
           {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
           {!this.state.showWaiting && <h5 className="gameTimer">{this.state.timer}</h5>}
@@ -278,6 +331,9 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     );
   }
 }
+
+/* this was used for username display <input type="text" placeholder="Username" value={this.state.username} onChange={ev => this.setState({username: ev.target.value})} className="form-control"/>
+                                <br/> */
 
 // const mapStateToProps = (state: IState) => (state.signIn);
 

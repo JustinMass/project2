@@ -3,8 +3,10 @@ import './include/bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './Store';
-import { HomeComponent } from './components/home/home.component';
+// import { HomeComponent } from './components/home/home.component';
 import { GameCanvasComponent } from './components/game-canvas/game-canvas.component';
+import { Chat } from './components/chat/chat';
+import { HomeComponent } from './components/home/home.component';
 
 
 
@@ -29,6 +31,7 @@ class App extends React.Component {
                 <Route path="/pokemon" component={PokemonComponent} />
                 <Route path="/movies" component={MoviesComponent} />
                 <Route path="/nested" component={NestedComponent} /> */}
+                <Route path= "/chat" component={Chat} /> 
                 <Route path="/game" component={GameCanvasComponent} />
                 <Route component={HomeComponent} />
               </Switch>
