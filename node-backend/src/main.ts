@@ -117,6 +117,8 @@ function Game(room){
         });
     };
 
+    let isFirst = true;
+
     curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
     curGame.lastTopic = curGame.topic;
     // communication for all players in room
@@ -125,7 +127,10 @@ function Game(room){
             curGame.started = true;
             curGame.canJoin = false;
 
-            io.to(room).emit('game start');
+            if(isFirst) {
+                io.to(room).emit('game start');
+                isFirst = false;
+            }
 
             curGame.time--;
             if (curGame.time > 0) {
@@ -202,6 +207,7 @@ function Game(room){
                                 curGame.time = 11;
                                 curGame.finished = false;
                                 curGame.artShown = false;
+                                isFirst = true;
                                 while (curGame.topic === curGame.lastTopic) {
                                     curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
                                 }
