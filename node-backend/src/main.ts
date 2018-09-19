@@ -115,10 +115,27 @@ function Game(room){
            let player = curGame.players[upgradeObj.user.pId];
            let upgrade = upgradeObj.upgrade;
 
-           if(player.score>=20 && !player.upgrades.includes(upgrade)){
-               player.score -= 20;
-               player.upgrades.push(upgrade);
-               socket.emit('player data', player);
+           if(!player.upgrades.includes(upgrade)){
+               if(upgrade === 'yellow' && player.score>=10) {
+                   player.score -= 10;
+                   player.upgrades.push(upgrade);
+                   socket.emit('player data', player);
+               }
+               else if(upgrade === 'blue' && player.score>=20) {
+                   player.score -= 20;
+                   player.upgrades.push(upgrade);
+                   socket.emit('player data', player);
+               }
+               else if(upgrade === 'red' && player.score>=30) {
+                   player.score -= 30;
+                   player.upgrades.push(upgrade);
+                   socket.emit('player data', player);
+               }
+               else if(upgrade === 'green' && player.score>=50) {
+                   player.score -= 50;
+                   player.upgrades.push(upgrade);
+                   socket.emit('player data', player);
+               }
            }
            else{
                socket.emit('purchase failure');
