@@ -97,18 +97,24 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public buyUpgrade = (e: any) => {
     console.log(e.target.value);
-    if(!this.state.upgrades){
-      this.setState({
-        ...this.state,
-        upgrades: [e.target.value]
-      });
+    const buyUpgrade = {
+      upgrade: e.target.value,
+      user: this.user
     }
-    else {
-    this.setState({
-      ...this.state,
-      upgrades: [...this.state.upgrades, e.target.value]
-    });
-  }
+    this.socket.emit('buy upgrade', buyUpgrade);
+    // if(!this.state.upgrades){
+    //   this.setState({
+    //     ...this.state,
+    //     upgrades: [e.target.value]
+    //   });
+    // }
+  //   else {
+  //   this.setState({
+  //     ...this.state,
+  //     upgrades: [...this.state.upgrades, e.target.value]
+  //   });
+  // }
+
   }
 
 
