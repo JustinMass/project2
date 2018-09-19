@@ -24,14 +24,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     art: '',
     id: 0,
     pId: 0,
-    score: 0
+    score: 0,
+    upgrades: []
   };
-  public winner = {
-    art: '',
-    id: 0,
-    pId: 0,
-    score: 0
-  };
+
 
   constructor(props: any) {
     super(props);
@@ -39,11 +35,13 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.imageContainer = React.createRef();
     this.state = {
       score: 0,
-      showCanvas: true,
+      showCanvas: false,
       showImages: false,
+      showWaiting: true,
       showWinner: false,
       timer: '',
-      topic: 'blake kruppa',
+      topic: '',
+      upgrades: [],
       users: [],
       winners: []
     }
@@ -97,6 +95,14 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.isDrawing = false;
   }
 
+  public buyUpgrade = (e: any) => {
+    console.log(e.target.value);
+    this.setState({
+      ...this.state,
+      upgrades: ['blue']
+    })
+  }
+
 
   public componentDidMount() {
     this.socket.emit('new player');
@@ -115,6 +121,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     this.socket.on('state', (serverState: any) => {
       this.setState({
+        ...this.state,
         timer: 'Draw: ' + serverState.time,
         topic: serverState.topic
       });
@@ -122,14 +129,26 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     this.socket.on('vote state', (serverState: any) => {
       this.setState({
-        timer: 'Vote For Another Octopus: ' + serverState.time
+        ...this.state,
+        timer: 'Vote For Another Octopus: ' + serverState.time,
+        topic: serverState.topic
       });
     })
 
     this.socket.on('wait state', (serverState: any) => {
       this.setState({
-        timer: 'New Match In : ' + serverState.time
+        ...this.state,
+        timer: 'New Match In : ' + serverState.time,
+        topic: serverState.topic
       });
+    })
+
+    this.socket.on('await players', () => {
+      this.setState({
+        ...this.state,
+        timer: 'Waiting For More Players To Start Match'
+      });
+
     })
 
     this.socket.on('finish', () => {
@@ -150,7 +169,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       this.user = player;
       this.setState({
         ...this.state,
-        score: 'Sacks: ' + this.user.score
+        score: 'Sacks: ' + this.user.score,
+        upgrades: player.upgrades
       })
       console.log(this.user);
     })
@@ -171,6 +191,16 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       this.resetGame();
     })
 
+    this.socket.on('game start', () => {
+      this.setState({
+        ...this.state,
+        showCanvas: true,
+        showWaiting: false
+      })
+    })
+
+
+
   }
 
   public render() {
@@ -180,46 +210,69 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         onMouseDown={(e: any) => { if (this.state.showCanvas) { this.isDrawing = true; this.startDraw(e); } }}
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         >
+
       <div id="gameCanvasContainer">
-          {<h5 className="gameTimer">{this.state.timer}</h5>}
+          {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
+          {!this.state.showWaiting && <h5 className="gameTimer">{this.state.timer}</h5>}
           {(this.state.showCanvas || this.state.showImages) && <h5 className="gameTimer">Topic: {this.state.topic}</h5>}
-          {<h5 className="gameTimer">{this.state.score}</h5>}
+          {!this.state.showWaiting && <h5 className="gameTimer">{this.state.score}</h5>}
           {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
           </canvas>}
           <br />
           {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-dark eraseButton">Eraser</button>}
           {this.state.showCanvas && <button onClick={() => { this.drawColor = '#ff4141'; this.lineWidth = 4; }} className="btn btn-danger eraseButton">Red</button>}
+          {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
+            onClick={() => {
+              this.drawColor = '#007bff';
+              this.lineWidth = 4;
+            }}>Blue</button>}
         </div>
 
         <div className="container resultsContainer">
           <div className="row">
             {this.state.showImages && this.state.users.map((user: any) =>
               user && (user.pId !== this.user.pId) &&
-              <div key={user.id} className="col">
+              <div key={user.id} className="col-4">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage"></img>
                   {user.pId + 1}
                 </div>
               </div>
             )}
-            <div className="container">
-              <div className="row">
-                {this.state.showWinner && this.state.winners.map((winner: any) =>
+          </div>
+        </div>
 
-                  <div key={winner.pId} className="col">
-                    <div className="bg-light refImage text-light">
-                      <img className="resultImage" src={winner.art}></img>
-                    </div>
-                    <h2 className="text-light winnerLabel">User {winner.pId + 1} Wins!</h2>
-                    <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
-                    {/* <h4 className="text-light">Joining New Lobby..</h4> */}
-                  </div>
+        <div className="container winnerContainer">
+          <div className="row">
+            {this.state.showWinner && this.state.winners.map((winner: any) =>
 
-                )}
+              <div key={winner.pId} className="col">
+                <div className="bg-light refImage text-light">
+                  <img className="resultImage" src={winner.art}></img>
+                </div>
+                <h2 className="text-light winnerLabel">User {winner.pId + 1} Wins!</h2>
+                <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
+              </div>
+
+            )}
+          </div>
+        </div>
+
+        <br />
+        <div className="container upgradeContainer">
+          <div className="row">
+            <div className="col">
+              <button className="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Buy Upgrades
+              </button>
+              <div className="collapse" id="collapseExample">
+                <button value="blue" className="btn btn-primary" onClick={(e) => { this.buyUpgrade(e) }}>Buy Blue</button>
               </div>
             </div>
           </div>
         </div>
+
+
       </div>
 
     );
