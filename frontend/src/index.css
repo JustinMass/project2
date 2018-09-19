@@ -70,3 +70,7 @@ html, body {
 .winnerLabel {
   width: 300px;
 }
+
+.upgradeButton {
+  margin-top: .5em;
+}
