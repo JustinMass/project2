@@ -260,7 +260,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
               user && (user.pId !== this.user.pId) &&
               <div key={user.id} className="col-4">
                 <div className="bg-light refImage text-light">
-                  <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage"></img>
+                  <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage" />
                   {user.pId + 1}
                 </div>
               </div>
@@ -274,7 +274,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
               <div key={winner.pId} className="col">
                 <div className="bg-light refImage text-light">
-                  <img className="resultImage" src={winner.art}></img>
+                  <img className="resultImage" src={winner.art} />
                 </div>
                 <h2 className="text-light winnerLabel">User {winner.pId + 1} Wins!</h2>
                 <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
