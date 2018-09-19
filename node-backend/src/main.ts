@@ -124,11 +124,10 @@ function Game(room){
     // communication for all players in room
     setInterval(() => {
         if(curGame.playerCt>=3 || curGame.started) {
-            curGame.started = true;
-            curGame.canJoin = false;
-
             if(isFirst) {
                 io.to(room).emit('game start');
+                curGame.started = true;
+                curGame.canJoin = false;
                 isFirst = false;
             }
 
