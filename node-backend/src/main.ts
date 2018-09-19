@@ -124,6 +124,9 @@ function Game(room){
         if(curGame.playerCt>=3 || curGame.started) {
             curGame.started = true;
             curGame.canJoin = false;
+
+            io.to(room).emit('game start');
+
             curGame.time--;
             if (curGame.time > 0) {
                 let state = {
@@ -208,6 +211,9 @@ function Game(room){
                                 }
                                 clearInterval(waitInter);
                                 clearInterval(waitInterval);
+                            }
+                            else{
+                                io.to(room).emit('await players');
                             }
                         }, 1000);
                     }
