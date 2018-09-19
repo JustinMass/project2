@@ -52,7 +52,10 @@ const games = [];
 function Game(room){
     const curGame = this;
     curGame.players = [null, null, null, null, null, null];
+    curGame.playerCt = 0;
     curGame.isFull = false;
+    curGame.canJoin = true;
+    curGame.started = false;
     curGame.id = room;
     curGame.finished = false;
     curGame.time = 11;
@@ -76,6 +79,7 @@ function Game(room){
                         score: 0
                     };
                     socket.emit('player data', curGame.players[pId]);
+                    curGame.playerCt++;
                     break;
                 }
             }
@@ -108,6 +112,7 @@ function Game(room){
 
         socket.on('disconnect', function () {
             curGame.players[pId] = null;
+            curGame.playerCt--;
             curGame.isFull = false;
         });
     };
@@ -116,91 +121,98 @@ function Game(room){
     curGame.lastTopic = curGame.topic;
     // communication for all players in room
     setInterval(() => {
-        curGame.time--;
-        if(curGame.time>0){
-            let state = {
-                time: curGame.time,
-                topic: curGame.topic
-            };
-            io.to(room).emit('state', state);
-        }
-        else if(!curGame.finished){
-            io.to(room).emit('finish');
-            curGame.finished = true;
-        }
-        else if(!curGame.artShown) {
-            io.to(room).emit('show art', curGame.players);
-            curGame.artShown = true;
-            let winnerShown = false;
+        if(curGame.playerCt>=3 || curGame.started) {
+            curGame.started = true;
+            curGame.canJoin = false;
+            curGame.time--;
+            if (curGame.time > 0) {
+                let state = {
+                    time: curGame.time,
+                    topic: curGame.topic
+                };
+                io.to(room).emit('state', state);
+            }
+            else if (!curGame.finished) {
+                io.to(room).emit('finish');
+                curGame.finished = true;
+            }
+            else if (!curGame.artShown) {
+                io.to(room).emit('show art', curGame.players);
+                curGame.artShown = true;
+                let winnerShown = false;
 
-            let voteTimer = 9;
-            // wait a set amount of time for votes
-            let waitInter =  setInterval(() => {
-                if(voteTimer>0){
-                    let state = {
-                        time: --voteTimer,
-                        topic: curGame.topic
-                    };
-                    io.to(room).emit('vote state', state);
-                }
-                else if(!winnerShown){
-
-                    let winners = [];
-                    let max = 0;
-                    // calculate max
-                    for (let i = 0; i < curGame.tallies.length; i++) {
-                        if (curGame.tallies[i] > max) {
-                            max = curGame.tallies[i];
-                            // winnerId = i;
-                        }
-
-                        // calculate points for each player
-                        if(curGame.players[i]) {
-                            curGame.players[i].score += curGame.tallies[i]*10;
-                        }
+                let voteTimer = 9;
+                // wait a set amount of time for votes
+                let waitInter = setInterval(() => {
+                    if (voteTimer > 0) {
+                        let state = {
+                            time: --voteTimer,
+                            topic: curGame.topic
+                        };
+                        io.to(room).emit('vote state', state);
                     }
+                    else if (!winnerShown) {
 
-                    // calculate winner
-                    for (let i = 0; i < curGame.tallies.length; i++) {
-                        if(curGame.tallies[i] === max && max !== 0){
-                            winners.push(curGame.players[i]);
+                        let winners = [];
+                        let max = 0;
+                        // calculate max
+                        for (let i = 0; i < curGame.tallies.length; i++) {
+                            if (curGame.tallies[i] > max) {
+                                max = curGame.tallies[i];
+                            }
+
+                            // calculate points for each player
+                            if (curGame.players[i]) {
+                                curGame.players[i].score += curGame.tallies[i] * 10;
+                            }
                         }
+
+                        // calculate winner
+                        for (let i = 0; i < curGame.tallies.length; i++) {
+                            if (curGame.tallies[i] === max && max !== 0) {
+                                winners.push(curGame.players[i]);
+                            }
+                        }
+
+                        // emit winner
+                        io.to(room).emit('winners', winners);
+
+                        winnerShown = true;
+
+                        // wait for new match to start
+                        let waitTime = 11;
+                        curGame.canJoin = true;
+                        let waitInterval = setInterval(() => {
+                            if (waitTime > 0) {
+                                let state = {
+                                    time: --waitTime,
+                                    topic: curGame.topic
+                                };
+                                io.to(room).emit('wait state', state);
+                            }
+                            else if (curGame.playerCt >= 3) {
+                                io.to(room).emit('done waiting');
+
+                                // reset variables
+                                curGame.canJoin = false;
+                                curGame.started = false;
+                                curGame.time = 11;
+                                curGame.finished = false;
+                                curGame.artShown = false;
+                                while (curGame.topic === curGame.lastTopic) {
+                                    curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
+                                }
+                                curGame.lastTopic = curGame.topic;
+                                for (let i = 0; i < curGame.tallies.length; i++) {
+                                    curGame.tallies[i] = 0;
+                                }
+                                clearInterval(waitInter);
+                                clearInterval(waitInterval);
+                            }
+                        }, 1000);
                     }
-
-                    // emit winner
-                    io.to(room).emit('winners', winners);
-
-                    winnerShown = true;
-
-                    let waitTime = 11;
-                    let waitInterval = setInterval(() => {
-                        if(waitTime>0){
-                            let state = {
-                                time: --waitTime,
-                                topic: curGame.topic
-                            };
-                            io.to(room).emit('wait state', state);
-                        }
-                        else{
-                            io.to(room).emit('done waiting');
-
-                            // reset variables
-                            curGame.time = 11;
-                            curGame.finished = false;
-                            curGame.artShown = false;
-                            while(curGame.topic === curGame.lastTopic) {
-                                curGame.topic = topics[Math.floor(Math.random() * (topics.length))];
-                            }
-                            curGame.lastTopic = curGame.topic;
-                            for (let i = 0; i < curGame.tallies.length; i++) {
-                                curGame.tallies[i] = 0;
-                            }
-                            clearInterval(waitInter);
-                            clearInterval(waitInterval);
-                        }
-                    }, 1000);
-                }
-            }, 1000);
+                }, 1000);
+            }
         }
     }, 1000);
 
@@ -209,16 +221,18 @@ function Game(room){
 io.on('connection', (socket) => {
     let room = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER));
 
+    // if no games, create new one
     if(games.length === 0){
         games.push(new Game(room));
         socket.join(room);
         games[0].initPlayer(socket);
     }
+    // if there are games, try connecting to them
     else{
         let success = false;
         for(let i = 0; i<games.length; i++){
             let game = games[i];
-            if(!game.isFull){
+            if(!game.isFull && game.canJoin){
                 socket.join(game.id);
                 games[i].initPlayer(socket);
                 success = true;
@@ -226,7 +240,7 @@ io.on('connection', (socket) => {
             }
         }
 
-        //no open room found
+        // if there are games, but all were full, make a new one
         if(!success){
             games.push(new Game(room));
             socket.join(room);
