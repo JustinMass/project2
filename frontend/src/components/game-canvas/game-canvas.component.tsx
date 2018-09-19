@@ -199,7 +199,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       this.user = player;
       this.setState({
         ...this.state,
-        score: 'Sacks: ' + this.user.score,
+        score: 'User: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
         upgrades: player.upgrades
       })
       console.log(this.user);
