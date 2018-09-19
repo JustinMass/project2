@@ -74,10 +74,10 @@ function Game(room){
                     pId = i;
                     curGame.players[i] = {
                         art: '',
-                        id: Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
                         pId,
                         score: 0,
-                        upgrades: []
+                        upgrades: [],
+                        username: 'Guest'
                     };
                     socket.emit('player data', curGame.players[pId]);
                     curGame.playerCt++;

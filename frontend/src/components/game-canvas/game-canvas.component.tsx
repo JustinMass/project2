@@ -22,10 +22,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   public lineWidth = 4;
   public user = {
     art: '',
-    id: 0,
     pId: 0,
     score: 0,
-    upgrades: []
+    upgrades: [],
+    username: ''
   };
 
 
