@@ -34,6 +34,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
+      afterVote: false,
       displayFailure: false,
       failedToBuy: false,
       score: 0,
@@ -80,6 +81,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.emit('user vote', pId);
     this.setState({
       ...this.state,
+      afterVote: true,
       showImages: false
     });
     console.log('voted');
@@ -210,6 +212,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       console.log(winners);
       this.setState({
         ...this.state,
+        afterVote:false,
         showImages: false,
         showWinner: true,
         winners
@@ -219,14 +222,6 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
     this.socket.on('done waiting', () => {
       this.resetGame();
-    })
-
-    this.socket.on('game start', () => {
-      this.setState({
-        ...this.state,
-        showCanvas: true,
-        showWaiting: false
-      })
     })
 
     this.socket.on('game start', () => {
@@ -255,40 +250,67 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         >
 
-      <div id="gameCanvasContainer">
 
-          {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
-          {!this.state.showWaiting && <h5 className="gameTimer">{this.state.timer}</h5>}
-          {(this.state.showCanvas || this.state.showImages) && <h5 className="gameTimer">Topic: {this.state.topic}</h5>}
-          {!this.state.showWaiting && <h5 className="gameTimer">{this.state.score}</h5>}
-          {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
-          </canvas>}
 
-          <br />
-          {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseButton eraseBackground">Eraser</button>}
-          {this.state.showCanvas && <button onClick={() => { this.drawColor = '#212529'; this.lineWidth = 4; }} className="btn btn-dark eraseButton"> </button>}
-          {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
-            onClick={() => {
-              this.drawColor = '#007bff';
-              this.lineWidth = 4;
-            }}> </button>}
-          {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('yellow') && <button className="btn btn-warning eraseButton"
-            onClick={() => {
-              this.drawColor = '#ffc107';
-              this.lineWidth = 4;
-            }}> </button>}
-          {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('green') && <button className="btn btn-success eraseButton"
-            onClick={() => {
-              this.drawColor = '#28a745';
-              this.lineWidth = 4;
-            }}> </button>}
-          {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('red') && <button className="btn btn-danger eraseButton"
-            onClick={() => {
-              this.drawColor = '#dc3545';
-              this.lineWidth = 4;
-            }}> </button>}
+        <div className="canvasUpgrades">
 
+          {(this.state.showCanvas) && <div className="upgradeContainer">
+            <button className="btn btn-dark buyUpgradeButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Buy Upgrades
+              </button>
+            <div>
+              {this.state.failedToBuy && <h5 id="failedPurchase">Insufficient Sacks/Already Purchased Upgrade</h5>}
+              {this.state.displayFailure && this.DisplayFailure()}
+            </div>
+            <div className="collapse" id="collapseExample">
+              <button value="yellow" className="btn btn-warning upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Yellow <br /> 10 Sacks</button>
+              <button value="blue" className="btn btn-primary upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Blue <br /> 20 Sacks </button>
+              <button value="red" className="btn btn-danger upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Red <br /> 30 Sacks</button>
+              <button value="green" className="btn btn-success upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Green <br /> 50 Sacks</button>
+
+            </div>
+          </div>}
+          {(this.state.showImages || this.state.afterVote || this.state.showWaiting || this.state.showWinner) && <div className="upgradeContainer"></div>}
+
+          <div id="gameCanvasContainer">
+
+            {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
+            {!this.state.showWaiting && <h5 className="gameTimer">{this.state.timer}</h5>}
+            {(this.state.showCanvas || this.state.showImages) && <h5 className="gameTimer">Topic: {this.state.topic}</h5>}
+            {!this.state.showWaiting && <h5 className="gameTimer">{this.state.score}</h5>}
+
+
+            {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
+            </canvas>}
+
+
+            <br />
+            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseButton eraseBackground">Eraser</button>}
+            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#212529'; this.lineWidth = 4; }} className="btn btn-dark eraseButton">{'\xa0'}</button>}
+            {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
+              onClick={() => {
+                this.drawColor = '#007bff';
+                this.lineWidth = 4;
+              }}>{'\xa0'}</button>}
+            {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('yellow') && <button className="btn btn-warning eraseButton"
+              onClick={() => {
+                this.drawColor = '#ffc107';
+                this.lineWidth = 4;
+              }}>{'\xa0'}</button>}
+            {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('green') && <button className="btn btn-success eraseButton"
+              onClick={() => {
+                this.drawColor = '#28a745';
+                this.lineWidth = 4;
+              }}>{'\xa0'}</button>}
+            {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('red') && <button className="btn btn-danger eraseButton"
+              onClick={() => {
+                this.drawColor = '#dc3545';
+                this.lineWidth = 4;
+              }}>{'\xa0'}</button>}
+          </div>
         </div>
+
+
 
         <div className="container resultsContainer">
           <div className="row">
@@ -297,7 +319,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
               <div key={user.id} className="col-4">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage" />
-                  {user.pId + 1}
+                  {/* {`User ${user.pId + 1}`} */}
                 </div>
               </div>
             )}
@@ -324,22 +346,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         <div className="container upgradeContainer">
 
           <div className="row">
-            <div className="col">
-              <button className="btn btn-dark buyUpgradeButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                Buy Upgrades
-              </button>
-              <div className="col">
-                {this.state.failedToBuy && <h5 id="failedPurchase">Insufficient Sacks/Already Purchased Upgrade</h5>}
-                {this.state.displayFailure && this.DisplayFailure()}
-              </div>
-              <div className="collapse" id="collapseExample">
-                <button value="yellow" className="btn btn-warning upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Yellow <br /> 10 Sacks</button>
-                <button value="blue" className="btn btn-primary upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Blue <br /> 20 Sacks </button>
-                <button value="red" className="btn btn-danger upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Red <br /> 30 Sacks</button>
-                <button value="green" className="btn btn-success upgradeButton" onClick={(e) => { this.buyUpgrade(e) }}>Buy Green <br /> 50 Sacks</button>
 
-              </div>
-            </div>
           </div>
 
 
