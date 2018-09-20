@@ -1,5 +1,5 @@
 import express = require('express');
-import session = require("express-session");
+import "isomorphic-fetch";
 import * as bodyParser from "body-parser";
 
 
@@ -158,7 +158,9 @@ function Game(room){
 
            if(oldScore !== player.score && curGame.playerAccounts[player.pId]){
                let dbUser = curGame.playerAccounts[player.pId];
-               dbUser.score = player.score;
+               dbUser.points = player.score;
+               dbUser.upgrades.push({userId: dbUser.id, upgrade});
+               curGame.playerAccounts[player.pId] = dbUser;
 
                fetch(`http://localhost:8080/users`, {
                    body: JSON.stringify(dbUser),
@@ -168,13 +170,12 @@ function Game(room){
                    method: 'PATCH',
                })
                    .then(resp => {
-                       console.log(resp.status);
                        if (resp.status === 200 || resp.status === 201) {
                            return resp.json();
                        }
                    })
                    .then(resp => {
-                       console.log(resp);
+                       // console.log(resp);
                    })
                    .catch(err => {
                        console.log(err);
@@ -248,7 +249,32 @@ function Game(room){
 
                             // calculate points for each player
                             if (curGame.players[i]) {
+                                let oldScore = curGame.players[i].score;
                                 curGame.players[i].score += curGame.tallies[i] * 10;
+
+                                if(oldScore !== curGame.players[i].score && curGame.playerAccounts[i]){
+                                    let dbUser = curGame.playerAccounts[i];
+                                    dbUser.points = curGame.players[i].score;
+
+                                    fetch(`http://localhost:8080/users`, {
+                                        body: JSON.stringify(dbUser),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        method: 'PATCH',
+                                    })
+                                        .then(resp => {
+                                            if (resp.status === 200 || resp.status === 201) {
+                                                return resp.json();
+                                            }
+                                        })
+                                        .then(resp => {
+                                            // console.log(resp);
+                                        })
+                                        .catch(err => {
+                                            console.log(err);
+                                        });
+                                }
                             }
                         }
 
