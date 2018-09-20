@@ -45,6 +45,7 @@ const games = [];
 function Game(room){
     const curGame = this;
     curGame.players = [null, null, null, null, null, null];
+    curGame.playerAccounts = [null, null, null, null, null, null];
     curGame.playerCt = 0;
     curGame.isFull = false;
     curGame.canJoin = true;
@@ -78,6 +79,7 @@ function Game(room){
                             upgrades,
                             username: user.username
                         };
+                        curGame.playerAccounts[i] = user;
                     }
                     else {
                         curGame.players[i] = {
@@ -123,6 +125,7 @@ function Game(room){
         socket.on('buy upgrade', (upgradeObj) => {
            let player = curGame.players[upgradeObj.user.pId];
            let upgrade = upgradeObj.upgrade;
+           let oldScore = player.score;
 
            if(!player.upgrades.includes(upgrade)){
                if(upgrade === 'yellow' && player.score>=10) {
@@ -153,6 +156,31 @@ function Game(room){
                socket.emit('purchase failure');
            }
 
+           if(oldScore !== player.score && curGame.playerAccounts[player.pId]){
+               let dbUser = curGame.playerAccounts[player.pId];
+               dbUser.score = player.score;
+
+               fetch(`http://localhost:8080/users`, {
+                   body: JSON.stringify(dbUser),
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   method: 'PATCH',
+               })
+                   .then(resp => {
+                       console.log(resp.status);
+                       if (resp.status === 200 || resp.status === 201) {
+                           return resp.json();
+                       }
+                   })
+                   .then(resp => {
+                       console.log(resp);
+                   })
+                   .catch(err => {
+                       console.log(err);
+                   });
+           }
+
         });
 
         socket.on('SEND_MESSAGE', function(data){
@@ -161,6 +189,7 @@ function Game(room){
 
         socket.on('disconnect', function () {
             curGame.players[pId] = null;
+            curGame.playerAccounts[pId] = null;
             curGame.playerCt--;
             curGame.isFull = false;
         });
