@@ -40,14 +40,6 @@ app.use((req, res, next) => {
 //setup body parser
 app.use(bodyParser.json());
 
-let allowCrossDomain = function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://ec2-52-13-0-150.us-west-2.compute.amazonaws.com:3001"); // allow requests from any other server
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE'); // allow these verbs
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control");
-}
-
-app.use(allowCrossDomain);
-
 // start listening
 server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
