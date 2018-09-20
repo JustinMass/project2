@@ -316,7 +316,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
           <div className="row">
             {this.state.showImages && this.state.users.map((user: any) =>
               user && (user.pId !== this.user.pId) &&
-              <div key={user.id} className="col-4">
+              <div key={user.pId} className="col-4">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage" />
                   {/* {`User ${user.pId + 1}`} */}
