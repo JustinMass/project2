@@ -13,7 +13,7 @@ const io = socketIO(server);
 
 // chat functionality
 io.on('connection', (socketIO) => {
-    console.log(socketIO.id);
+    // console.log(socketIO.id);
 
     socketIO.on('SEND_MESSAGE', function(data){
         io.emit('RECEIVE_MESSAGE', data);

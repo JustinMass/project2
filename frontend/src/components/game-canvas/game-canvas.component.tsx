@@ -22,12 +22,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   public lineWidth = 4;
   public user = {
     art: '',
-<<<<<<< HEAD
-    id: 0,
     message: '',
     messages: [],
-=======
->>>>>>> bf7d4d511eaff01737ffb0122c75d7aa980af196
     pId: 0,
     score: 0,
     upgrades: [],
@@ -40,14 +36,11 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.canvas = React.createRef();
     this.imageContainer = React.createRef();
     this.state = {
-<<<<<<< HEAD
       author: '',
-      message: '',
-      messages: [],
-=======
       displayFailure: false,
       failedToBuy: false,
->>>>>>> bf7d4d511eaff01737ffb0122c75d7aa980af196
+      message: '',
+      messages: [],
       score: 0,
       showCanvas: false,
       showImages: false,
@@ -68,7 +61,12 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   }
 
   public sendMessage = (ev: any) => {
+    if(ev.type === 'keypress' && ( ev.which !== 13)){
+      return;
+    }
+    
     ev.preventDefault();
+
     this.socket.emit('SEND_MESSAGE', {
         author: this.state.username,
         message: this.state.message
@@ -181,6 +179,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     const addMessage = (data:any) => {
       // console.log(data);
       this.setState({messages: [...this.state.messages, data]});
+      const something = document.getElementsByClassName('messages')[0];
+      something.scrollTop = something.scrollHeight;
       // console.log(this.state.messages);
     }
 
@@ -299,7 +299,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                                 <div className="messages">
                                     {this.state.messages.map((message: any) => {
                                         return (
-                                            <div key = {message}>{this.user.id}: {message.message}</div>
+                                            <div key = {Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER))}>{this.user.username}: {message.message}</div>
                                         )
                                     })}
                                 </div>
@@ -307,7 +307,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                             </div>
                             <div className="card-footer">
                                 
-                                <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
+                                <input type="text" onKeyPress = { this.sendMessage } placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
                                 <br/>
                                 <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
                             </div>

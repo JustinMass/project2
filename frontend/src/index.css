@@ -91,3 +91,9 @@ html, body {
   background-color: pink;
   font-size: .7em;
 }
+
+.messages {
+  overflow-y:scroll;
+  overflow:auto;
+  height:400px;
+}
