@@ -343,15 +343,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         </div>
 
         <br />
-        <div className="container upgradeContainer">
-
-          <div className="row">
-
-          </div>
-
-
-        </div>
-
+       
 
       </div>
 
