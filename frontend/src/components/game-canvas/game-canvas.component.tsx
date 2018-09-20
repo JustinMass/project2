@@ -169,8 +169,18 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
   public componentDidMount() {
-    this.socket.emit('new player');
-
+    const userString = localStorage.getItem('user')
+      if (userString) {
+        const user = JSON.parse(userString); 
+        console.log(user);
+        console.log('This is the JSON parse')
+        
+        this.socket.emit('new player', user);
+      }
+      else {
+        this.socket.emit('new player', null);
+      }
+   
     this.socket.on('show art', (players: any[]) => {
       console.log('in show art');
       console.log(players);
