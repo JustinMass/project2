@@ -285,7 +285,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
             <br />
-            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseButton eraseBackground">Eraser</button>}
+            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseBackground">Eraser</button>}
             {this.state.showCanvas && <button onClick={() => { this.drawColor = '#212529'; this.lineWidth = 4; }} className="btn btn-dark eraseButton">{'\xa0'}</button>}
             {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
               onClick={() => {
@@ -308,6 +308,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 this.lineWidth = 4;
               }}>{'\xa0'}</button>}
           </div>
+
         </div>
 
 

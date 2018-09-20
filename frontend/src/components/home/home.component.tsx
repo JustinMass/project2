@@ -41,6 +41,9 @@ export class HomeComponent extends React.Component<IProps, {}> {
                 </div>
                 <button className="btn btn-dark goToGameButton" onClick={() => { this.goToGame() }}>Go To The Game</button>
 
+                 <button onClick={()=>{this.props.history.push('/signIn');}} className="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Sign In
+              </button>
             </div>
         )
     }
