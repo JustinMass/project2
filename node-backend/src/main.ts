@@ -61,17 +61,33 @@ function Game(room){
     // communication for single player in room
     curGame.initPlayer = (socket) => {
         let pId = -1;
-        socket.on('new player', () => {
+        socket.on('new player', (user) => {
             for(let i=0; i<curGame.players.length; i++){
                 if(!curGame.players[i]){
                     pId = i;
-                    curGame.players[i] = {
-                        art: '',
-                        pId,
-                        score: 0,
-                        upgrades: [],
-                        username: 'Guest'
-                    };
+
+                    if(user){
+                        let upgrades = [];
+                        for(let i=0; i<user.upgrades.length; i++){
+                            upgrades.push(user.upgrades[i].upgrade);
+                        }
+                        curGame.players[i] = {
+                            art: '',
+                            pId,
+                            score: user.points,
+                            upgrades,
+                            username: user.username
+                        };
+                    }
+                    else {
+                        curGame.players[i] = {
+                            art: '',
+                            pId,
+                            score: 0,
+                            upgrades: [],
+                            username: 'Guest'
+                        };
+                    }
                     socket.emit('player data', curGame.players[pId]);
                     curGame.playerCt++;
                     break;
