@@ -15,22 +15,6 @@ const io = socketIO(server);
 const port = process.env.PORT || 3001;
 app.set('port', port);
 
-// establish session
-const sess = {
-    secret: 'fortyton',
-    cookie: {secure: false},
-    resave: false,
-    saveUninitialized: false
-};
-
-if (app.get('env') === 'production'){
-    app.set('trust proxy', 1);
-    sess.cookie.secure = true;
-}
-
-// register session
-app.use(session(sess));
-
 // log requests
 app.use((req, res, next) => {
     console.log(`request made with path: ${req.path} \nand type: ${req.method}`);
