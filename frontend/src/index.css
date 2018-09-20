@@ -14,6 +14,7 @@ body {
 
 .eraseButton {
   margin-left: .2em;
+  height: 1.7em;
 }
 
 #canvasComponentContainer {
@@ -56,6 +57,8 @@ body {
 }
 
 .goToGameButton {
+  margin-right: 2em;
+  margin-bottom: 1em;
   margin-top: 1em;
   margin-left: 30%;
 }
@@ -89,6 +92,8 @@ body {
 .eraseBackground {
   background-color: pink;
   font-size: .7em;
+  margin-left: .2em;
+
 }
 
 .InsideContent{
@@ -124,4 +129,20 @@ body {
   margin-top: 100px;
   width: 350px;
   float: right;
+}
+#signInContainer {
+  width: 30%;
+  margin: auto;
+}
+
+#registerLink {
+  font-size: 1em;
+  padding: 1em;
+  height: 3em;
+  width: 21em;
+  font-weight: 450;
+  margin-top: .5em;
+}
+#signInButton {
+  margin-top: .5em;
 }

@@ -289,6 +289,9 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
         
         
+        >
+
+
 
         <div className="canvasUpgrades">
 
@@ -314,6 +317,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
           
 
+          {(this.state.showImages || this.state.afterVote || this.state.showWaiting || this.state.showWinner) && <div className="upgradeContainer"></div>}
+
           <div id="gameCanvasContainer">
 
             {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
@@ -328,6 +333,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
             <br />
             {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseButton eraseBackground">Eraser</button>}
+            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseBackground">Eraser</button>}
             {this.state.showCanvas && <button onClick={() => { this.drawColor = '#212529'; this.lineWidth = 4; }} className="btn btn-dark eraseButton">{'\xa0'}</button>}
             {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
               onClick={() => {
