@@ -11,6 +11,17 @@ interface IProps extends RouteComponentProps<{}>, ISignInState {
     updateUsername: (username: string) => any,
     submit: (credentials: any) => any
 }
+export let DBuser: {
+    id: 0,
+    password: '',
+    points: 0,
+    upgrades: [{
+      upgrade: '',
+      userId: 0,
+      userUpgradeId: 0,              
+    }],
+    username: ''
+  }
 
 export class SignInComponent extends React.Component<IProps, {}> {
 
@@ -41,6 +52,7 @@ export class SignInComponent extends React.Component<IProps, {}> {
             })
             .then(resp => {
                 localStorage.setItem('user', JSON.stringify(resp));
+                DBuser = resp;
                 this.props.history.push('/home');
             })
             .catch(err => {

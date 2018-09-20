@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as io from 'socket.io-client';
 import { RouteComponentProps } from 'react-router';
-// import * as $ from 'jquery';
+import { DBuser } from '../sign-in/sign-in.component'
+// import { IGameCanvasState, IState } from '../../reducers';
+// import { updateUser } from '../../actions/game-canvas/game-canvas.actions';
+// import { connect } from 'react-redux';
 
-// interface IProps extends IPokemonState {
-//   fetchPokemon: (id: number) => any,
-//   updateId: (id: number) => any
-// }
 interface IProps extends RouteComponentProps<{}> {
+  // updateUser: (user: {}) => any
 
 }
-// testing
+
 export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public canvas: any;
@@ -169,13 +169,15 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
   public componentDidMount() {
-    const userString = localStorage.getItem('user')
-      if (userString) {
-        const user = JSON.parse(userString); 
-        console.log(user);
-        console.log('This is the JSON parse')
+    // const userString = localStorage.getItem('user')
+      if (DBuser.id !== 0) {
+        // const user = JSON.parse(userString); 
+        // console.log(user);
+        // console.log('This is the JSON parse');
+        console.log(DBuser);
+        console.log('this is the exported DB user');
         
-        this.socket.emit('new player', user);
+        this.socket.emit('new player', DBuser);
       }
       else {
         this.socket.emit('new player', null);
@@ -437,22 +439,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   }
 }
 
-// const mapStateToProps = (state: IState) => (state.signIn);
+// const mapStateToProps = (state: IState) => (state.gameCanvas);
 
 // const mapDispatchToProps = {
-//   updateError: signInActions.updateError,
-//   updatePassword: signInActions.updatePassword,
-//   updateUsername: signInActions.updateUsername,
+//   updateUser,
 // }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);
-
-// const mapStateToProps = (state: IState) => (state.signIn);
-
-// const mapDispatchToProps = {
-//   updateError: signInActions.updateError,
-//   updatePassword: signInActions.updatePassword,
-//   updateUsername: signInActions.updateUsername,
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);
+// export default connect(mapStateToProps, mapDispatchToProps)(GameCanvasComponent);
