@@ -140,10 +140,6 @@ body {
   margin-right:2em;
   height: 600px;
 }
-#signInContainer {
-  width: 30%;
-  margin: auto;
-}
 
 #registerLink {
   font-size: 1em;
@@ -153,6 +149,25 @@ body {
   font-weight: 450;
   margin-top: .5em;
 }
+
 #signInButton {
   margin-top: .5em;
+}
+
+.signin-container {
+  margin:auto
+}
+
+.form-signin {
+  width: 22%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.signInTitle {
+  margin-top: 3em;
+}
+
+#error-message {
+  color: red;
 }

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './Store';
 import { GameCanvasComponent } from './components/game-canvas/game-canvas.component';
 import { HomeComponent } from './components/home/home.component';
+import  SignInComponent  from './components/sign-in/sign-in.component';
 
 
 
@@ -29,6 +30,7 @@ class App extends React.Component {
                 <Route path="/pokemon" component={PokemonComponent} />
                 <Route path="/movies" component={MoviesComponent} />
                 <Route path="/nested" component={NestedComponent} /> */}
+                <Route path="/sign-in" component={SignInComponent} />
                 <Route path="/game" component={GameCanvasComponent} />
                 <Route component={HomeComponent} />
               </Switch>
