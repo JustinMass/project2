@@ -78,7 +78,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     })
     this.setState({ message: '' });
   }
-  
+
 
   public getContext(): CanvasRenderingContext2D {
     return this.canvas.current.getContext("2d");
@@ -136,7 +136,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       user: this.user
     }
 
-    
+
     this.socket.emit('buy upgrade', buyUpgrade);
     // if(!this.state.upgrades){
     //   this.setState({
@@ -250,7 +250,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       console.log(winners);
       this.setState({
         ...this.state,
-        afterVote:false,
+        afterVote: false,
         showImages: false,
         showWinner: true,
         winners
@@ -287,8 +287,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         onMouseMove={(this.state.showCanvas ? this.draw : () => { console.log() })}
         onMouseDown={(e: any) => { if (this.state.showCanvas) { this.isDrawing = true; this.startDraw(e); } }}
         onMouseUp={(this.state.showCanvas ? this.toggleDraw : () => { console.log() })}>
-        
-        
+
+
         >
 
 
@@ -312,11 +312,6 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
             </div>
           </div>}
 
-          
-          {(this.state.showImages || this.state.afterVote || this.state.showWaiting || this.state.showWinner) && <div className="upgradeContainer"></div>}
-
-          
-
           {(this.state.showImages || this.state.afterVote || this.state.showWaiting || this.state.showWinner) && <div className="upgradeContainer"></div>}
 
           <div id="gameCanvasContainer">
@@ -332,7 +327,6 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
             <br />
-            {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseButton eraseBackground">Eraser</button>}
             {this.state.showCanvas && <button onClick={() => { this.drawColor = '#f8f9fa'; this.lineWidth = 20; }} className="btn btn-sm eraseBackground">Eraser</button>}
             {this.state.showCanvas && <button onClick={() => { this.drawColor = '#212529'; this.lineWidth = 4; }} className="btn btn-dark eraseButton">{'\xa0'}</button>}
             {this.state.showCanvas && this.state.upgrades && this.state.upgrades.includes('blue') && <button className="btn btn-primary eraseButton"
@@ -358,8 +352,8 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
           </div>
 
           <div className="chatContainer">
-            <div className="row">
-              <div className="col-xs-3">
+            {/* <div className="row">
+              <div className="col-xs-3"> */}
                 <div className="card">
                   <div className="card-body">
                     <div className="card-title">Chat</div>
@@ -377,13 +371,13 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
                     <input type="text" onKeyPress={this.sendMessage} placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
                     <br />
-                    <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
+                    <button onClick={this.sendMessage} className="btn btn-dark form-control">Send</button>
                   </div>
                 </div>
-              </div>
-            </div>
+              {/* </div>
+            </div> */}
           </div>
-          
+
         </div>
 
 
@@ -417,11 +411,6 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
             )}
           </div>
         </div>
-
-
-
-        <br />
-       
 
       </div>
 
