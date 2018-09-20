@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>revature</groupId>
-	<artifactId>spring-boot</artifactId>
+	<artifactId>spring-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-boot</name>
-	<description>Demo project for Spring Boot</description>
+	<name>spring-backend</name>
+	<description>Spring Backend</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -26,6 +26,17 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.1</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
