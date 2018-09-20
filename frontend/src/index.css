@@ -47,8 +47,16 @@ body {
   width: 300px;
 }
 
+.winnerContainer {
+  margin-left: 2em;
+  display: inline-block;
+  width: 70%;
+}
+
 .resultsContainer {
-  width: 100%;
+  margin-left: 2em;
+  display: inline-block;
+  width: 70%;
 }
 
 .infoList {
@@ -129,6 +137,8 @@ body {
   margin-top: 100px;
   width: 350px;
   float: right;
+  margin-right:2em;
+  height: 600px;
 }
 #signInContainer {
   width: 30%;

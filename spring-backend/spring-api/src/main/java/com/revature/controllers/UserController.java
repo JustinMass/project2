@@ -63,8 +63,14 @@ public class UserController {
 
 	// /users/login
 	@PostMapping("login")
-	public User login(@RequestBody Credential u) {
-		return us.login(u.getUsername(), u.getPassword());
+	public ResponseEntity<User> login(@RequestBody Credential u) {
+		User dbUser = us.login(u.getUsername(), u.getPassword());
+		if (dbUser != null) {
+			return new ResponseEntity<User>(dbUser, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 }
