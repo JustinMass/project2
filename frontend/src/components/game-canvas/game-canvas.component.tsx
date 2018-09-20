@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router';
 interface IProps extends RouteComponentProps<{}> {
 
 }
-
+// testing
 export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public canvas: any;
