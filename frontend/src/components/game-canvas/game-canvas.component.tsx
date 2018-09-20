@@ -247,11 +247,20 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.on('player data', (player: any) => {
       console.log('setting player data');
       this.user = player;
+      if(this.user.username === 'Guest'){
       this.setState({
         ...this.state,
-        score: 'User: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
+        score: 'Guest: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
         upgrades: player.upgrades
       })
+    }
+    else {
+      this.setState({
+        ...this.state,
+        score:(this.user.username) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
+        upgrades: player.upgrades
+      })
+    }
       console.log(this.user);
     })
 
@@ -414,7 +423,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 <div className="bg-light refImage text-light">
                   <img className="resultImage" src={winner.art} />
                 </div>
-                <h2 className="text-light winnerLabel">User {winner.pId + 1} Wins!</h2>
+                <h2 className="text-light winnerLabel">User {winner.username} Wins!</h2>
                 <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
               </div>
 

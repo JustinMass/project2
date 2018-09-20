@@ -47,7 +47,7 @@ public class UserService {
 		for (int i = 0; i < userUpgrades.size(); i++) {
 			upr.saveAndFlush(userUpgrades.get(i));
 		}
-		//ur.saveAndFlush(u);
+		ur.saveAndFlush(u);
 		return u;
 	}
 
