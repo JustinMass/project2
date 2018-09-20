@@ -1,15 +1,12 @@
 #gameCanvas {
-  margin-top: 4em;
+  margin-top: 1em;
   
   /* text-align: center; */
   /* margin: auto;
   margin-left: 20%; */
 }
-#gameCanvasContainer {
-  margin: auto;
-  width: 600px;
-}
-html, body {
+
+body {
   height: 100%;
   width: 100%;
   background-color:#1b1f23;
@@ -75,15 +72,17 @@ html, body {
   margin-top: .5em;
   margin-bottom: 1em;
   font-size: .85em;
+  width: 80px;
 }
 
 #failedPurchase {
   color:red;
-  width: 600px;
+  width: 250px;
+  font-size: 1em;
 }
 
 .buyUpgradeButton {
-  margin-top: 1em;
+  margin-top: 7em;
   margin-bottom: 1em;
 }
 
@@ -92,8 +91,37 @@ html, body {
   font-size: .7em;
 }
 
+.InsideContent{
+  display:inline-block;
+}
+
+.canvasUpgrades {
+  width: 100%;
+  margin: 0px auto -1px auto;
+  
+}
+
+.upgradeContainer {
+  display:inline-block;
+  width: 200px;
+  margin-left: 15%;
+  vertical-align: top;
+}
+
+#gameCanvasContainer {
+  width:600px;
+  display:inline-block;
+}
+
 .messages {
   overflow-y:scroll;
   overflow:auto;
   height:400px;
+  width: 300px;
+}
+
+.chatContainer {
+  margin-top: 100px;
+  width: 350px;
+  float: right;
 }

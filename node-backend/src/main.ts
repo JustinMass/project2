@@ -13,9 +13,10 @@ const io = socketIO(server);
 
 // chat functionality
 io.on('connection', (socketIO) => {
-    // console.log(socketIO.id);
+    console.log(socketIO.id);
 
     socketIO.on('SEND_MESSAGE', function(data){
+        console.log('trying to get to receive message');
         io.emit('RECEIVE_MESSAGE', data);
     })
 });
@@ -25,22 +26,6 @@ io.on('connection', (socketIO) => {
 const port = process.env.PORT || 3001;
 app.set('port', port);
 
-// establish session
-const sess = {
-    secret: 'fortyton',
-    cookie: {secure: false},
-    resave: false,
-    saveUninitialized: false
-};
-
-if (app.get('env') === 'production'){
-    app.set('trust proxy', 1);
-    sess.cookie.secure = true;
-}
-
-// register session
-app.use(session(sess));
-
 // log requests
 app.use((req, res, next) => {
     console.log(`request made with path: ${req.path} \nand type: ${req.method}`);
@@ -49,6 +34,16 @@ app.use((req, res, next) => {
 
 //setup body parser
 app.use(bodyParser.json());
+
+app.use((req, resp, next) => {
+    (process.env.DRAWCTOPUS_API_STAGE === 'prod')
+        ? resp.header('Access-Control-Allow-Origin', 'http://www.drawctopus.net.s3-website-us-east-1.amazonaws.com/')
+        : resp.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    resp.header("Access-Control-Allow-Credentials", "true");
+    resp.header("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS");
+    next();
+});
 
 // start listening
 server.listen(port, () => {
