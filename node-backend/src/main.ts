@@ -10,18 +10,6 @@ const app = express();
 const server = http.Server(app);
 const io = socketIO(server);
 
-
-// chat functionality
-io.on('connection', (socketIO) => {
-    console.log(socketIO.id);
-
-    socketIO.on('SEND_MESSAGE', function(data){
-        console.log('trying to get to receive message');
-        io.emit('RECEIVE_MESSAGE', data);
-    })
-});
-
-
 // set the port
 const port = process.env.PORT || 3001;
 app.set('port', port);
@@ -149,6 +137,10 @@ function Game(room){
                socket.emit('purchase failure');
            }
 
+        });
+
+        socket.on('SEND_MESSAGE', function(data){
+            io.emit('RECEIVE_MESSAGE', data);
         });
 
         socket.on('disconnect', function () {
