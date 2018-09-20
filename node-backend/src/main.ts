@@ -40,6 +40,16 @@ app.use((req, res, next) => {
 //setup body parser
 app.use(bodyParser.json());
 
+app.use((req, resp, next) => {
+    (process.env.DRAWCTOPUS_API_STAGE === 'prod')
+        ? resp.header('Access-Control-Allow-Origin', 'http://www.drawctopus.net.s3-website-us-east-1.amazonaws.com/')
+        : resp.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    resp.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    resp.header("Access-Control-Allow-Credentials", "true");
+    resp.header("Access-Control-Allow-Methods", "PUT, POST, OPTIONS");
+    next();
+})
+
 // start listening
 server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
