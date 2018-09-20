@@ -17,7 +17,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
   // public users: any[];
   public imageContainer: any;
   public isDrawing = false;
-  public socket = io('http://localhost:3001');
+  public socket = io('http://ec2-52-13-0-150.us-west-2.compute.amazonaws.com:3001/');
   public drawColor = '#212529';
   public lineWidth = 4;
   public user = {
