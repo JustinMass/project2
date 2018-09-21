@@ -169,7 +169,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public componentDidMount() {
     // const userString = localStorage.getItem('user')
-      if (DBuser.id !== 0) {
+      if (DBuser && DBuser.id !== 0) {
         // const user = JSON.parse(userString); 
         // console.log(user);
         // console.log('This is the JSON parse');
