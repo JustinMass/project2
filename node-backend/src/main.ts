@@ -162,7 +162,7 @@ function Game(room){
                dbUser.upgrades.push({userId: dbUser.id, upgrade});
                curGame.playerAccounts[player.pId] = dbUser;
 
-               fetch(`http://localhost:8080/users`, {
+               fetch(`http://ec2-54-89-137-191.compute-1.amazonaws.com:9001/users`, {
                    body: JSON.stringify(dbUser),
                    headers: {
                        'Content-Type': 'application/json',
@@ -256,7 +256,7 @@ function Game(room){
                                     let dbUser = curGame.playerAccounts[i];
                                     dbUser.points = curGame.players[i].score;
 
-                                    fetch(`http://localhost:8080/users`, {
+                                    fetch(`http://ec2-54-89-137-191.compute-1.amazonaws.com:9001/users`, {
                                         body: JSON.stringify(dbUser),
                                         headers: {
                                             'Content-Type': 'application/json',
