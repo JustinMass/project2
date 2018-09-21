@@ -41,7 +41,7 @@ export class HomeComponent extends React.Component<IProps, {}> {
                 </div>
                 <button className="btn btn-dark goToGameButton" onClick={() => { this.goToGame() }}>Go To The Game</button>
 
-                 <button onClick={()=>{this.props.history.push('/sign-in');}} className="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                 <button onClick={()=>{this.props.history.push('/sign-in');}} className="btn btn-dark signInHomeButton" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Sign In
               </button>
             </div>

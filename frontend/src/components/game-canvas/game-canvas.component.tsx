@@ -50,6 +50,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       topic: '',
       upgrades: [],
       users: [],
+      waitingString: 'Waiting For More Octopi...',
       winners: []
     }
   }
@@ -168,6 +169,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
   public componentDidMount() {
+    console.log('changed the login push so it pushes to the game');
     // const userString = localStorage.getItem('user')
       if (DBuser && DBuser.id !== 0) {
         // const user = JSON.parse(userString); 
@@ -299,6 +301,14 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       })
     })
 
+    this.socket.on('player joining', () => {
+      console.log('in player joining');
+      this.setState({
+        ...this.state,
+        waitingString: 'Waiting For Current Match To End..'
+      });
+    })
+
   }
 
   public render() {
@@ -336,7 +346,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
           <div id="gameCanvasContainer">
 
-            {this.state.showWaiting && <h5 className="gameTimer">Waiting For More Octopi...</h5>}
+            {this.state.showWaiting && <h5 className="gameTimer">{this.state.waitingString}</h5>}
             {!this.state.showWaiting && <h5 className="gameTimer">{this.state.timer}</h5>}
             {(this.state.showCanvas || this.state.showImages) && <h5 className="gameTimer">Topic: {this.state.topic}</h5>}
             {!this.state.showWaiting && <h5 className="gameTimer">{this.state.score}</h5>}
@@ -374,7 +384,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
           <div className="chatContainer">
             {/* <div className="row">
               <div className="col-xs-3"> */}
-                <div className="card">
+                <div className="card chatCard">
                   <div className="card-body">
                     <div className="card-title">Chat</div>
                     <hr />

@@ -1,9 +1,8 @@
 #gameCanvas {
   margin-top: 1em;
+  box-shadow: 14px -9px 5px 0px rgba(23,17,23,1);
+  border-radius: 4%;
   
-  /* text-align: center; */
-  /* margin: auto;
-  margin-left: 20%; */
 }
 
 body {
@@ -13,6 +12,7 @@ body {
 }
 
 .eraseButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-left: .2em;
   height: 1.7em;
 }
@@ -33,12 +33,15 @@ body {
 }
 
 .refImage {
+  border-radius: 4%;
+  box-shadow: 14px -9px 5px 0px rgba(23,17,23,1);
   margin-top: 2em;
   height: 300px;
   width: 300px;
 }
 
 .gameTimer {
+  text-shadow: 2px -3px 3px rgb(8, 8, 8);
   color: #f8f9fa;
 }
 
@@ -65,10 +68,15 @@ body {
 }
 
 .goToGameButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-right: 2em;
   margin-bottom: 1em;
   margin-top: 1em;
   margin-left: 30%;
+}
+
+.signInHomeButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
 }
 
 .welcomeMessage {
@@ -80,6 +88,8 @@ body {
 }
 
 .upgradeButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
+  margin-right: .5em;
   margin-top: .5em;
   margin-bottom: 1em;
   font-size: .85em;
@@ -87,17 +97,20 @@ body {
 }
 
 #failedPurchase {
+  text-shadow: 2px -3px 3px rgb(8, 8, 8);
   color:red;
   width: 250px;
   font-size: 1em;
 }
 
 .buyUpgradeButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-top: 7em;
   margin-bottom: 1em;
 }
 
 .eraseBackground {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   background-color: pink;
   font-size: .7em;
   margin-left: .2em;
@@ -129,17 +142,23 @@ body {
 .messages {
   overflow-y:scroll;
   overflow:auto;
-  height:400px;
+  height:375px;
   width: 300px;
 }
 
+.chatCard {
+  margin-top: 10%;
+  margin-bottom: 1.5em;
+  box-shadow: 14px -9px 5px 0px rgba(23,17,23,1);
+  border-radius: 4%;
+}
+
 .chatContainer {
-  margin-top: 100px;
+  margin-top: 5%;
   width: 350px;
   float: right;
   margin-right:2em;
   height: 600px;
-  margin-bottom: 1em;
 }
 
 #registerLink {
@@ -170,5 +189,33 @@ body {
 }
 
 #error-message {
+  margin-top: .5em;
   color: red;
+}
+
+#registerModelButton {
+  margin-top: .5em;
+}
+
+.registerForm{
+  text-align: left;
+  margin: auto;
+  width: 70%;
+}
+
+.registerFormButton {
+  margin: auto;
+  margin-top: .5em;
+  width: 50%;
+}
+
+#registerMessage {
+  color: green;
+  font-size: 90%;
+  text-align: center;
+  margin-top: .5em;
+}
+
+#hiddenRegisterButton {
+  visibility: hidden;
 }

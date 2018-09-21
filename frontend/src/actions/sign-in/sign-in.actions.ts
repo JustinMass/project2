@@ -27,3 +27,12 @@ export const updateError = (errorMessage: string) => {
   }
 }
 
+export const updateRegistration = (RegistrationMessage: string) => {
+  return {
+    payload: {
+      RegistrationMessage
+    },
+    type: signInTypes.UPDATE_REGISTRATION
+  }
+}
+

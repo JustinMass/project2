@@ -9,7 +9,8 @@ export interface ISignInState {
     password: string,
     username: string
   },
-  errorMessage: string
+  errorMessage: string,
+  registrationMessage: string
 }
 
 export interface IGameCanvasState {

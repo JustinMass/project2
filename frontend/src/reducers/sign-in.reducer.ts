@@ -6,7 +6,8 @@ const initialState: ISignInState = {
     password: '',
     username: ''
   },
-  errorMessage: ''
+  errorMessage: '',
+  registrationMessage: ''
 }
 
 export const signInReducer = (state = initialState, action: any) => {
@@ -31,6 +32,11 @@ export const signInReducer = (state = initialState, action: any) => {
           ...state.credentials,
           username: action.payload.username
         }
+      }
+      case signInTypes.UPDATE_REGISTRATION:
+      return {
+        ...state,
+          registrationMessage: action.payload.RegistrationMessage
       }
   }
 
