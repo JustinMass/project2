@@ -14,7 +14,6 @@ interface IProps extends RouteComponentProps<{}> {
 export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public canvas: any;
-  // public users: any[];
   public imageContainer: any;
   public isDrawing = false;
   public socket = io('http://ec2-34-219-29-142.us-west-2.compute.amazonaws.com:3001/');
