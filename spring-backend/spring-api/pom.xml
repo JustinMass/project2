@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>revature</groupId>
-	<artifactId>spring-backend</artifactId>
+	<artifactId>spring-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-backend</name>
+	<name>spring-api</name>
 	<description>Spring Backend</description>
 
 	<parent>
@@ -81,7 +81,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>spring-backend</finalName>
+		<finalName>spring-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
