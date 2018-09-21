@@ -48,7 +48,7 @@ function Game(room){
     curGame.playerAccounts = [null, null, null, null, null, null];
     curGame.playerCt = 0;
     curGame.isFull = false;
-    curGame.canJoin = true;
+    // curGame.canJoin = true;
     curGame.started = false;
     curGame.id = room;
     curGame.finished = false;
@@ -206,7 +206,7 @@ function Game(room){
             if(isFirst) {
                 io.to(room).emit('game start');
                 curGame.started = true;
-                curGame.canJoin = false;
+                // curGame.canJoin = false;
                 isFirst = false;
             }
 
@@ -292,7 +292,7 @@ function Game(room){
 
                         // wait for new match to start
                         let waitTime = 11;
-                        curGame.canJoin = true;
+                        // curGame.canJoin = true;
                         let waitInterval = setInterval(() => {
                             if (waitTime > 0) {
                                 let state = {
@@ -305,7 +305,7 @@ function Game(room){
                                 io.to(room).emit('done waiting');
 
                                 // reset variables
-                                curGame.canJoin = false;
+                                // curGame.canJoin = false;
                                 curGame.started = false;
                                 curGame.time = 31;
                                 curGame.finished = false;
@@ -347,7 +347,7 @@ io.on('connection', (socket) => {
         let success = false;
         for(let i = 0; i<games.length; i++){
             let game = games[i];
-            if(!game.isFull && game.canJoin){
+            if(!game.isFull /*&& game.canJoin*/){
                 socket.join(game.id);
                 games[i].initPlayer(socket);
                 success = true;
