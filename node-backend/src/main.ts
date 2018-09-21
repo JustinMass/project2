@@ -91,6 +91,7 @@ function Game(room){
                         };
                     }
                     socket.emit('player data', curGame.players[pId]);
+                    socket.emit('player joining');
                     curGame.playerCt++;
                     break;
                 }
