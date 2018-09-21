@@ -63,6 +63,7 @@ body {
 }
 
 .infoList {
+  text-shadow: 2px -3px 3px rgb(8, 8, 8);
   font-size: 2em;
   margin-bottom: .5em;
 }
@@ -80,6 +81,7 @@ body {
 }
 
 .welcomeMessage {
+  text-shadow: 2px -3px 3px rgb(8, 8, 8);
   margin-bottom: 1em;
 }
 
@@ -171,6 +173,7 @@ body {
 }
 
 #signInButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-top: .5em;
 }
 
@@ -185,6 +188,7 @@ body {
 }
 
 .signInTitle {
+  text-shadow: 2px -3px 3px rgb(8, 8, 8);
   margin-top: 3em;
 }
 
@@ -194,6 +198,7 @@ body {
 }
 
 #registerModelButton {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-top: .5em;
 }
 
@@ -207,6 +212,7 @@ body {
   margin: auto;
   margin-top: .5em;
   width: 50%;
+ 
 }
 
 #registerMessage {
@@ -218,4 +224,12 @@ body {
 
 #hiddenRegisterButton {
   visibility: hidden;
+}
+
+#inputUsername {
+  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
+}
+
+#inputPassword {
+  box-shadow: 7px 2px 5px 0px rgba(28,26,28,1);
 }
