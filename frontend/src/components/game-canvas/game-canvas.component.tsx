@@ -56,7 +56,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
   public addMessage = (data: any) => {
     console.log(data);
-    this.setState({ messages: [...this.state.messages, data] });
+    this.setState({ ...this.state, messages: [...this.state.messages, data] });
     const something = document.getElementsByClassName('messages')[0];
     something.scrollTop = something.scrollHeight;
     // console.log(this.state.messages);
@@ -75,7 +75,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       author: this.user.username,
       message: this.state.message
     })
-    this.setState({ message: '' });
+    this.setState({ ...this.state, message: '' });
   }
 
 
