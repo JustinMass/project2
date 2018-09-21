@@ -381,7 +381,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                     <div className="messages">
                       {this.state.messages.map((message: any) => {
                         return (
-                          <div key={Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER))}>{this.user.username}: {message.message}</div>
+                          <div key={Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER))}>{message.author}: {message.message}</div>
                         )
                       })}
                     </div>
