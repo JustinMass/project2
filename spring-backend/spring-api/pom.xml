@@ -94,7 +94,7 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>spring-boot:run</goal>
+							<goal>repackage</goal>
 						</goals>
 					</execution>
 				</executions>
