@@ -38,7 +38,11 @@ server.listen(port, () => {
     console.log(`App is running at http://localhost:${app.get('port')} in ${app.get('env')} mode`);
 });
 
-const topics = ['Blake Kruppa', 'Dead Fish', 'Chair', 'Regret', 'Hindsight', 'Fishing', 'Bike', 'Airplane', 'Moist', 'Emptiness', 'Skyline', 'Rock Climbing', 'Jet-powered Boat'];
+const topics = ['Blake Kruppa', 'Dead Fish', 'Chariot', 'Regret', 'Harpoon Fishing', 'Tricycle', 'Amazon Drone', 'Moist', 'Emptiness',
+ 'Skyline', 'Rock Climbing', 'Jet-powered Boat', `Shrek's Swamp`, 'Octopus Artist', 'Revature Associate', `Blake's Server Depiction`, 
+ 'Sharknado', 'The Apocalypse', `Reasonable`, `Quality Control(For Spring)`, `Liger`, `Your Favorite Meme`, `Medieval Weapon`, 
+ `Cloud Computing`, `Commitment`, `The Fourth Dimension`
+];
 
 const games = [];
 
