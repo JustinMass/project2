@@ -6,6 +6,11 @@
 }
 
 body {
+  /* background-image: url("assets/octoArtistTransparent4.png");
+  background-repeat: no-repeat;
+  background-position-x: 50%; */
+  /* background-position: center; */
+  background-size: 856px 812px;
   height: 100%;
   width: 100%;
   background-color:#1b1f23;
@@ -64,8 +69,12 @@ body {
 
 .infoList {
   text-shadow: 2px -3px 3px rgb(8, 8, 8);
-  font-size: 2em;
+  font-size: 1.8em;
   margin-bottom: .5em;
+}
+
+.infoListContainer {
+  margin: auto;
 }
 
 .goToGameButton {
@@ -73,7 +82,7 @@ body {
   margin-right: 2em;
   margin-bottom: 1em;
   margin-top: 1em;
-  margin-left: 30%;
+  margin-left: 37%;
 }
 
 .signInHomeButton {
@@ -82,7 +91,8 @@ body {
 
 .welcomeMessage {
   text-shadow: 2px -3px 3px rgb(8, 8, 8);
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
+  margin-top: 1.5em;
 }
 
 .winnerLabel {
@@ -173,7 +183,6 @@ body {
 }
 
 #signInButton {
-  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-top: .5em;
 }
 
@@ -198,7 +207,6 @@ body {
 }
 
 #registerModelButton {
-  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
   margin-top: .5em;
 }
 
@@ -227,9 +235,18 @@ body {
 }
 
 #inputUsername {
-  box-shadow: 7px -6px 5px 0px rgba(28,26,28,1);
+  
 }
 
 #inputPassword {
-  box-shadow: 7px 2px 5px 0px rgba(28,26,28,1);
+  
+}
+
+#DrawctopusLogo {
+  height: 80%;
+  width: 100%;
+}
+
+.homeElement {
+  height: 80%;
 }

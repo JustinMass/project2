@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import logo from '../../assets/Picture1.png'
+import logo from '../../assets/octoArtistTransparent4.png'
 
 interface IProps extends RouteComponentProps<{}> {
 
@@ -10,6 +10,10 @@ export class HomeComponent extends React.Component<IProps, {}> {
 
     public goToGame = () => {
         this.props.history.push('/game');
+    }
+
+    public componentDidMount() {
+        $('body').css('backgroundImage', `url()`);
     }
 
 
@@ -25,10 +29,10 @@ export class HomeComponent extends React.Component<IProps, {}> {
 
                     
                     <br />
-                    <div className="col">
-                        <img src={logo} alt="octopus" height="500" width="400"></img>
+                    <div className="col homeElement">
+                    <img src={logo} className="homeElement" alt="octopus" id="DrawctopusLogo"></img>
                     </div>
-                    <div className="col-7">
+                    <div className="infoListContainer col-6">
                         <ul>
                             <li className="text-white infoList">Join an Octopus lobby</li>
                             <li className="text-white infoList">Draw the specified object within the time limit</li>

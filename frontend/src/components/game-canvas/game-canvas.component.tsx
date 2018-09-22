@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as io from 'socket.io-client';
 import { RouteComponentProps } from 'react-router';
-import { DBuser } from '../sign-in/sign-in.component'
+import { DBuser } from '../sign-in/sign-in.component';
+import logo from '../../assets/octoArtistTransparent4.png';
+
 // import { IGameCanvasState, IState } from '../../reducers';
 // import { updateUser } from '../../actions/game-canvas/game-canvas.actions';
 // import { connect } from 'react-redux';
@@ -124,9 +126,11 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       showImages: false,
       showWinner: false
     });
-    const ctx = this.getContext();
-    ctx.clearRect(0, 0, this.canvas.current.width, this.canvas.current.height);
-    this.isDrawing = false;
+    if (this.canvas.current) {
+      const ctx = this.getContext();
+      ctx.clearRect(0, 0, this.canvas.current.width, this.canvas.current.height);
+      this.isDrawing = false;
+    }
   }
 
   public buyUpgrade = (e: any) => {
@@ -157,21 +161,23 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
   public componentDidMount() {
+    // document.body.style.backgroundImage = '../../assets/octoArtistTransparent4.png';
+    $('body').css('backgroundImage', `url(${logo})`);
     console.log('changed the login push so it pushes to the game');
     // const userString = localStorage.getItem('user')
-      if (DBuser && DBuser.id !== 0) {
-        // const user = JSON.parse(userString); 
-        // console.log(user);
-        // console.log('This is the JSON parse');
-        console.log(DBuser);
-        console.log('this is the exported DB user');
-        
-        this.socket.emit('new player', DBuser);
-      }
-      else {
-        this.socket.emit('new player', null);
-      }
-   
+    if (DBuser && DBuser.id !== 0) {
+      // const user = JSON.parse(userString); 
+      // console.log(user);
+      // console.log('This is the JSON parse');
+      console.log(DBuser);
+      console.log('this is the exported DB user');
+
+      this.socket.emit('new player', DBuser);
+    }
+    else {
+      this.socket.emit('new player', null);
+    }
+
     this.socket.on('show art', (players: any[]) => {
       console.log('in show art');
       console.log(players);
@@ -238,20 +244,20 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
     this.socket.on('player data', (player: any) => {
       console.log('setting player data');
       this.user = player;
-      if(this.user.username === 'Guest'){
-      this.setState({
-        ...this.state,
-        score: 'Guest: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
-        upgrades: player.upgrades
-      })
-    }
-    else {
-      this.setState({
-        ...this.state,
-        score:(this.user.username) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
-        upgrades: player.upgrades
-      })
-    }
+      if (this.user.username === 'Guest') {
+        this.setState({
+          ...this.state,
+          score: 'Guest: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
+          upgrades: player.upgrades
+        })
+      }
+      else {
+        this.setState({
+          ...this.state,
+          score: (this.user.username) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
+          upgrades: player.upgrades
+        })
+      }
       console.log(this.user);
     })
 
@@ -309,7 +315,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
         >
 
-
+       {/* <img src={logo} className="homeElement" alt="octopus" id="DrawctopusLogo"></img> */}
 
         <div className="canvasUpgrades">
 
@@ -340,7 +346,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
             {!this.state.showWaiting && <h5 className="gameTimer">{this.state.score}</h5>}
 
 
-            {this.state.showCanvas && <canvas id="gameCanvas" width={600} height={600} className="bg-light" ref={this.canvas}>
+            {this.state.showCanvas && <canvas id="gameCanvas" width={550} height={550} className="bg-light" ref={this.canvas}>
             </canvas>}
 
 
@@ -372,27 +378,27 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
           <div className="chatContainer">
             {/* <div className="row">
               <div className="col-xs-3"> */}
-                <div className="card chatCard">
-                  <div className="card-body">
-                    <div className="card-title">Chat</div>
-                    <hr />
-                    <div className="messages">
-                      {this.state.messages.map((message: any) => {
-                        return (
-                          <div key={Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER))}>{message.author}: {message.message}</div>
-                        )
-                      })}
-                    </div>
-
-                  </div>
-                  <div className="card-footer">
-
-                    <input type="text" onKeyPress={this.sendMessage} placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
-                    <br />
-                    <button onClick={this.sendMessage} className="btn btn-dark form-control">Send</button>
-                  </div>
+            <div className="card chatCard">
+              <div className="card-body">
+                <div className="card-title">Chat</div>
+                <hr />
+                <div className="messages">
+                  {this.state.messages.map((message: any) => {
+                    return (
+                      <div key={Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER))}>{message.author}: {message.message}</div>
+                    )
+                  })}
                 </div>
-              {/* </div>
+
+              </div>
+              <div className="card-footer">
+
+                <input type="text" onKeyPress={this.sendMessage} placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({ message: ev.target.value })} />
+                <br />
+                <button onClick={this.sendMessage} className="btn btn-dark form-control">Send</button>
+              </div>
+            </div>
+            {/* </div>
             </div> */}
           </div>
 
@@ -403,7 +409,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         <div className="container resultsContainer">
           <div className="row">
             {this.state.showImages && this.state.users.map((user: any) =>
-              user && (user.pId !== this.user.pId) &&
+              user && user.art && (user.pId !== this.user.pId) &&
               <div key={user.pId} className="col-4">
                 <div className="bg-light refImage text-light">
                   <img src={user.art} onClick={() => { this.handleVote(user.pId) }} className="resultImage" />
