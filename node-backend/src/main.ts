@@ -193,7 +193,7 @@ function Game(room){
         });
 
         socket.on('SEND_MESSAGE', function(data){
-            io.emit('RECEIVE_MESSAGE', data);
+            io.to(room).emit('RECEIVE_MESSAGE', data);
         });
 
         socket.on('disconnect', function () {
