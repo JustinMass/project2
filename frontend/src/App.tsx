@@ -21,16 +21,6 @@ class App extends React.Component {
         <BrowserRouter>
             <div id="main-content-container">
               <Switch>
-                {/* <Route path="/register" component={RegisterComponent} />
-                <Route path="/second" component={SecondComponent} />
-                <Route path="/home" component={HomeComponent} />
-                <Route path="/sign-in" component={SignInComponent} />
-                <Route path="/clicker" component={ClickerComponent} />
-                <Route path="/tic-tac-toe" component={TicTacComponent} />
-                <Route path="/chuck-norris" component={ChuckNorrisComponent} />
-                <Route path="/pokemon" component={PokemonComponent} />
-                <Route path="/movies" component={MoviesComponent} />
-                <Route path="/nested" component={NestedComponent} /> */}
                 <Route path="/sign-in" component={SignInComponent} />
                 <Route path="/game" component={GameCanvasComponent} />
                 <Route component={HomeComponent} />
