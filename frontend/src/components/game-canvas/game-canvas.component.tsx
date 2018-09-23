@@ -305,6 +305,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
   }
 
+  public componentWillUnmount () {
+    this.socket.disconnect();
+  }
+
   public render() {
     return (
       <div id="canvasComponentContainer"
@@ -380,7 +384,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
               <div className="col-xs-3"> */}
             <div className="card chatCard">
               <div className="card-body">
-                <div className="card-title">Chat</div>
+                <div className="card-title">Global Chat</div>
                 <hr />
                 <div className="messages">
                   {this.state.messages.map((message: any) => {

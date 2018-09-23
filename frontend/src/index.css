@@ -6,11 +6,11 @@
 }
 
 body {
-  /* background-image: url("assets/octoArtistTransparent4.png");
+  /* background-image: url("assets/octoArtistTransparent4.png"); */
   background-repeat: no-repeat;
-  background-position-x: 50%; */
-  /* background-position: center; */
-  background-size: 856px 812px;
+  background-position-x: 25%;
+  background-position-y: 150%;
+  background-size: 60% 90%;
   height: 100%;
   width: 100%;
   background-color:#1b1f23;
@@ -69,7 +69,7 @@ body {
 
 .infoList {
   text-shadow: 2px -3px 3px rgb(8, 8, 8);
-  font-size: 165%;
+  font-size: 180%;
   margin-bottom: .5em;
 }
 
@@ -243,8 +243,8 @@ body {
 }
 
 #DrawctopusLogo {
-  height: 80%;
-  width: 100%;
+  /* height: 40%; */
+  width: 105%;
 }
 
 .homeElement {
