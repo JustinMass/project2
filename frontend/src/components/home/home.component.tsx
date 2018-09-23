@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import logo from '../../assets/octoArtistTransparent4.png'
+import logo from '../../assets/octoArtistTransparent-shadow.png'
 
 interface IProps extends RouteComponentProps<{}> {
 
@@ -13,7 +13,7 @@ export class HomeComponent extends React.Component<IProps, {}> {
     }
 
     public componentDidMount() {
-        $('body').css('backgroundImage', `url()`);
+       $('body').css('backgroundImage', `url(), radial-gradient(ellipse at center, rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%)`);
     }
 
 

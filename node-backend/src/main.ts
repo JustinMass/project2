@@ -56,7 +56,7 @@ function Game(room){
     curGame.started = false;
     curGame.id = room;
     curGame.finished = false;
-    curGame.time = 51;
+    curGame.time = 61;
     curGame.tallies = [0, 0, 0, 0, 0, 0];
 
     // sets default topic
@@ -315,7 +315,7 @@ function Game(room){
                                 // reset variables
                                 // curGame.canJoin = false;
                                 curGame.started = false;
-                                curGame.time = 51;
+                                curGame.time = 61;
                                 curGame.finished = false;
                                 curGame.artShown = false;
                                 isFirst = true;

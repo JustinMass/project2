@@ -4,16 +4,20 @@
   border-radius: 4%;
   
 }
-
-body {
-  /* background-image: url("assets/octoArtistTransparent4.png"); */
-  background-repeat: no-repeat;
-  background-position-x: 25%;
-  background-position-y: 100%;
-  background-size: 50% 80%;
+html {
   height: 100%;
   width: 100%;
-  background-color:#1b1f23;
+  margin: 0;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background-image: url(''), radial-gradient(ellipse at center, rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%);
+  background-repeat: no-repeat, repeat;
+  background-position-x: 25%, 100%;
+  background-position-y: 100%;
+  background-size: 50% 80%, cover;
+  background-color: #808080;
 }
 
 .eraseButton {
@@ -69,7 +73,7 @@ body {
 
 .infoList {
   text-shadow: 2px -3px 3px rgb(8, 8, 8);
-  font-size: 180%;
+  font-size: 170%;
   margin-bottom: .5em;
 }
 
@@ -183,6 +187,7 @@ body {
 }
 
 #signInButton {
+  background-color: #202020;
   margin-top: .5em;
 }
 
@@ -234,17 +239,17 @@ body {
   visibility: hidden;
 }
 
-#inputUsername {
+/* #inputUsername {
   
 }
 
 #inputPassword {
   
-}
+} */
 
 #DrawctopusLogo {
   /* height: 40%; */
-  width: 105%;
+  width: 95%;
 }
 
 .homeElement {

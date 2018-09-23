@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as io from 'socket.io-client';
 import { RouteComponentProps } from 'react-router';
 import { DBuser } from '../sign-in/sign-in.component';
-import logo from '../../assets/octoArtistTransparent4.png';
+import logo from '../../assets/octoArtistTransparent-Opacity2.png';
 
 // import { IGameCanvasState, IState } from '../../reducers';
 // import { updateUser } from '../../actions/game-canvas/game-canvas.actions';
@@ -161,14 +161,10 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
 
 
   public componentDidMount() {
-    // document.body.style.backgroundImage = '../../assets/octoArtistTransparent4.png';
-    $('body').css('backgroundImage', `url(${logo})`);
-    console.log('changed the login push so it pushes to the game');
-    // const userString = localStorage.getItem('user')
+   
+   $('body').css('backgroundImage', `url(${logo}), radial-gradient(ellipse at center, rgba(69,72,77,1) 0%,rgba(0,0,0,1) 100%)`);
+    
     if (DBuser && DBuser.id !== 0) {
-      // const user = JSON.parse(userString); 
-      // console.log(user);
-      // console.log('This is the JSON parse');
       console.log(DBuser);
       console.log('this is the exported DB user');
 
@@ -247,7 +243,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
       if (this.user.username === 'Guest') {
         this.setState({
           ...this.state,
-          score: 'Guest: ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
+          score: 'Guest ' + (this.user.pId + 1) + '\xa0\xa0|\xa0 Sacks: ' + this.user.score,
           upgrades: player.upgrades
         })
       }
@@ -432,7 +428,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 <div className="bg-light refImage text-light">
                   <img className="resultImage" src={winner.art} />
                 </div>
-                <h2 className="text-light winnerLabel">User {winner.username} Wins!</h2>
+                <h2 className="text-light winnerLabel">{winner.username}{(winner.username ==='Guest') && ' ' + winner.pId} Wins!</h2>
                 <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
               </div>
 
