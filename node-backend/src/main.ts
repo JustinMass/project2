@@ -41,7 +41,7 @@ server.listen(port, () => {
 const topics = ['Blake Kruppa', 'Dead Fish', 'Chariot', 'Regret', 'Harpoon Fishing', 'Tricycle', 'Amazon Drone', 'Moist', 'Emptiness',
  'Skyline', 'Rock Climbing', 'Jet-powered Boat', `Shrek's Swamp`, 'Octopus Artist', 'Revature Associate', `Blake's Server Depiction`, 
  'Sharknado', 'The Apocalypse', `Reasonable`, `Quality Control(For Spring)`, `Liger`, `Your Favorite Meme`, `Medieval Weapon`, 
- `Cloud Computing`, `Commitment`, `The Fourth Dimension`
+ `Cloud Computing`, `Commitment`, `The Fourth Dimension`, `Catdog`, `Pirate`, `Sad Cow`, `Dancing Lobster`, 
 ];
 
 const games = [];
@@ -235,7 +235,7 @@ function Game(room){
                 curGame.artShown = true;
                 let winnerShown = false;
 
-                let voteTimer = 9;
+                let voteTimer = 16;
                 // wait a set amount of time for votes
                 let waitInter = setInterval(() => {
                     if (voteTimer > 0) {
