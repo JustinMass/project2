@@ -384,7 +384,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
               <div className="col-xs-3"> */}
             <div className="card chatCard">
               <div className="card-body">
-                <div className="card-title">Global Chat</div>
+                <div className="card-title">Chat</div>
                 <hr />
                 <div className="messages">
                   {this.state.messages.map((message: any) => {

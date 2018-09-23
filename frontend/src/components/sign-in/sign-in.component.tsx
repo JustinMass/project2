@@ -165,11 +165,11 @@ export class SignInComponent extends React.Component<IProps, {}> {
                                 <form className="registerForm" onSubmit={this.submitRegistration}>
 
                                     <label>Username</label>
-                                    <input type="text" className="form-control newReimbForm" placeholder="Username" required onChange={(e: any) => {
+                                    <input type="text" className="form-control newReimbForm" required onChange={(e: any) => {
                                         DBuser.username = e.target.value;
                                     }}></input>
                                     <label>Password</label>
-                                    <input type="password" className="form-control newReimbForm" placeholder="Password" required onChange={(e: any) => {
+                                    <input type="password" className="form-control newReimbForm" required onChange={(e: any) => {
                                         DBuser.password = e.target.value;
                                     }}></input>
                                     <button className="btn btn-dark btn-block registerFormButton" type="submit">Register</button>
