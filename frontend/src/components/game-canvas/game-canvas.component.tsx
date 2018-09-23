@@ -428,7 +428,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
                 <div className="bg-light refImage text-light">
                   <img className="resultImage" src={winner.art} />
                 </div>
-                <h2 className="text-light winnerLabel">{winner.username}{(winner.username ==='Guest') && ' ' + winner.pId} Wins!</h2>
+                <h2 className="text-light winnerLabel">{winner.username}{(winner.username ==='Guest') && ' ' + (winner.pId + 1)} Wins!</h2>
                 <h3 className="text-light winnerLabel">Topic: {this.state.topic}</h3>
               </div>
 
