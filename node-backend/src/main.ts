@@ -288,7 +288,7 @@ function Game(room){
 
                         // calculate winner
                         for (let i = 0; i < curGame.tallies.length; i++) {
-                            if (curGame.tallies[i] === max && max !== 0) {
+                            if (curGame.tallies[i] === max && max !== 0 && curGame.players[i]) {
                                 winners.push(curGame.players[i]);
                             }
                         }
