@@ -423,7 +423,7 @@ export class GameCanvasComponent extends React.Component<IProps, any> {
         <div className="container winnerContainer">
           <div className="row">
             {this.state.showWinner && this.state.winners.map((winner: any) =>
-
+              winner && 
               <div key={winner.pId} className="col">
                 <div className="bg-light refImage text-light">
                   <img className="resultImage" src={winner.art} />
